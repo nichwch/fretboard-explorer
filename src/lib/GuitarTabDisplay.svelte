@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
   import ChordDisplay from './ChordDisplay.svelte'
   import type { Phrase } from './types'
 

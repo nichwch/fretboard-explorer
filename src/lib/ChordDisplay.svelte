@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
   import type { Chord } from './types'
   export let chord: Chord
 </script>
