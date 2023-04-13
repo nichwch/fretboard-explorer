@@ -17,6 +17,10 @@
 
 <main>
   <div id="main">
+    <h1>Guitar tools</h1>
+    <p>
+      Practicing svelte by creating some tools to help with guitar practice.
+    </p>
     <GuitarTabDisplay tab={testTab} />
   </div>
 </main>

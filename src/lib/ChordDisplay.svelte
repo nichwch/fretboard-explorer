@@ -3,14 +3,27 @@
   export let chord: Chord
 </script>
 
-<div>
-  chord!
-  <div id="line1" />
-  <div id="line2" />
-  <div id="line3" />
-  <div id="line4" />
-  <div id="line5" />
-  <div id="line6" />
+<div id="parent">
+  <div class="line" />
+  <div class="line" />
+  <div class="line" />
+  <div class="line" />
+  <div class="line" />
+  <div class="line" />
+  {#each chord as note}
+    <div>{note}</div>
+  {/each}
 </div>
 
-<style></style>
+<style>
+  #parent {
+    height: 100px;
+    display: inline-block;
+  }
+  .line {
+    display: block;
+    width: 15px;
+    height: 16.66%;
+    border-bottom: 1px solid black;
+  }
+</style>
