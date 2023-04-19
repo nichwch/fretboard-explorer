@@ -13,7 +13,7 @@
     [0, 0, 5, 0, 0, 0],
     [0, 0, 7, 0, 0, 0],
   ]
-  const tabMapTest = FretMapForScale(STANDARD_TUNING, 24, 'E minor pentatonic')
+  const tabMapTest = FretMapForScale(STANDARD_TUNING, 24, 'B minor')
   console.log(tabMapTest)
 </script>
 
