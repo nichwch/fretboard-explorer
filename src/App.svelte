@@ -1,5 +1,6 @@
 <script lang="ts">
   import { FretMapForScale, STANDARD_TUNING } from './guitar'
+  import FretMap from './lib/FretMap.svelte'
   import GuitarTabDisplay from './lib/GuitarTabDisplay.svelte'
   import Counter from './lib/GuitarTabDisplay.svelte'
   import type { Phrase } from './lib/types'
@@ -23,7 +24,7 @@
     <p>
       Practicing svelte by creating some tools to help with guitar practice.
     </p>
-    <GuitarTabDisplay tab={testTab} />
+    <FretMap fretMap={tabMapTest} />
   </div>
 </main>
 

@@ -37,8 +37,6 @@ export function scaleNotesInRange(
       scaleInRange.push(note)
     }
   }
-  console.log('range', range)
-  console.log('SCALE IN RANGE', scaleInRange)
   return scaleInRange
 }
 
@@ -52,7 +50,6 @@ export function noteOnString(
     targetStringOpenNote,
     noteWithOctave
   )
-  console.log('distance from open to target', distanceFromOpenToTarget)
   const semitonesToTarget = interval(distanceFromOpenToTarget).semitones
   return semitonesToTarget
 }
@@ -67,7 +64,6 @@ export function FretMapForScale(
   const scaleType = scale.type
 
   const combinedScaleNotes = scaleNotesInRange(tuning, frets, scale.notes)
-  console.log('combinedScaleNotes', combinedScaleNotes)
 
   const fretMap: FretMap = [[], [], [], [], [], []]
   for (let i = 0; i < fretMap.length; i++) {
@@ -75,7 +71,6 @@ export function FretMapForScale(
     for (let note of combinedScaleNotes) {
       const fretOfNoteOnString = noteOnString(tuning, i, note)
       if (fretOfNoteOnString >= 0) {
-        console.log('dump', i, note, fretOfNoteOnString)
         fretMap[i].push(fretOfNoteOnString)
       }
     }
