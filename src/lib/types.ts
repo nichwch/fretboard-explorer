@@ -1,3 +1,5 @@
+import type { NoteWithOctave } from 'tonal'
+
 export type StringIndex = number | null
 export type Chord = [
   StringIndex,
@@ -8,3 +10,21 @@ export type Chord = [
   StringIndex
 ]
 export type Phrase = Chord[]
+
+export type Tuning = [
+  NoteWithOctave,
+  NoteWithOctave,
+  NoteWithOctave,
+  NoteWithOctave,
+  NoteWithOctave,
+  NoteWithOctave
+]
+
+export type FretMap = [
+  number[],
+  number[],
+  number[],
+  number[],
+  number[],
+  number[]
+]

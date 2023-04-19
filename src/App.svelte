@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FretMapForScale, STANDARD_TUNING } from './guitar'
   import GuitarTabDisplay from './lib/GuitarTabDisplay.svelte'
   import Counter from './lib/GuitarTabDisplay.svelte'
   import type { Phrase } from './lib/types'
@@ -12,7 +13,8 @@
     [0, 0, 5, 0, 0, 0],
     [0, 0, 7, 0, 0, 0],
   ]
-  console.log('Testtab,', testTab)
+  const tabMapTest = FretMapForScale(STANDARD_TUNING, 24, 'E minor pentatonic')
+  console.log(tabMapTest)
 </script>
 
 <main>

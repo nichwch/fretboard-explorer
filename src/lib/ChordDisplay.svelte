@@ -5,32 +5,16 @@
 </script>
 
 <div id="parent">
-  <div class="column">
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-  </div>
-  <div class="note-column">
+  <div>
     {#each chord as note}
       <div class="note" class:is_zero={note === 0}>{note}</div>
     {/each}
-  </div>
-  <div class="column">
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
-    <div class="line" />
   </div>
 </div>
 
 <style>
   #parent {
-    height: 100px;
+    height: 120px;
     display: inline-flex;
   }
   .line {
@@ -51,9 +35,5 @@
 
   .note {
     font-weight: bold;
-  }
-
-  .note-column {
-    margin-top: 10%;
   }
 </style>

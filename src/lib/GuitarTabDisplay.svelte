@@ -3,7 +3,6 @@
   import type { Phrase } from './types'
 
   export let tab: Phrase
-  console.log('tab', tab)
 </script>
 
 {#each tab as chord}
