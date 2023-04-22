@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { noteByStringAndFret } from '../guitar'
-  import { hoveredNote } from './hoveredNoteStore'
+  import { noteByStringAndFret as pcByStringAndFret } from '../guitar'
+  import { hoveredNote as hoveredPC } from './hoveredNoteStore'
   import type { FretMap, Tuning } from './types'
 
   export let stringIndex: number
@@ -14,7 +14,7 @@
   }
 
   function isRoot(string: number, fret: number) {
-    const note = noteByStringAndFret(tuning, string, fret)
+    const note = pcByStringAndFret(tuning, string, fret)
     return note === root
   }
 </script>
@@ -28,8 +28,9 @@
     r="10"
     fill={isRoot(stringIndex, fretIndex + 1) ? 'black' : 'white'}
     stroke="black"
-    stroke-dasharray={$hoveredNote ===
-    noteByStringAndFret(tuning, stringIndex, fretIndex + 1)
+    stroke-dasharray={$hoveredPC ===
+      pcByStringAndFret(tuning, stringIndex, fretIndex + 1) &&
+    !isRoot(stringIndex, fretIndex + 1)
       ? '4,4'
       : '0'}
   />
@@ -43,9 +44,9 @@
     font-weight="normal"
     text-anchor="middle"
   >
-    {noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+    {pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   </text>
-{:else if $hoveredNote === noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+{:else if $hoveredPC === pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   <!-- show this only on hover -->
   <circle cx={50 * fretIndex + 75} cy={stringIndex * 25} r="10" fill="white" />
   <text
@@ -58,7 +59,7 @@
     font-weight="normal"
     text-anchor="middle"
   >
-    {noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+    {pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   </text>
 {/if}
 <circle
@@ -67,9 +68,9 @@
   r="10"
   fill="transparent"
   on:mouseenter={() => {
-    hoveredNote.set(noteByStringAndFret(tuning, stringIndex, fretIndex + 1))
+    hoveredPC.set(pcByStringAndFret(tuning, stringIndex, fretIndex + 1))
   }}
   on:mouseleave={() => {
-    hoveredNote.set(null)
+    hoveredPC.set(null)
   }}
 />
