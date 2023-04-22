@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { STANDARD_TUNING, noteByStringAndFret } from '../guitar'
+  import { noteByStringAndFret } from '../guitar'
   import NoteCircle from './NoteCircle.svelte'
+  import { GUITAR_STANDARD_TUNING } from './tunings'
   import type { FretMap, Phrase, Tuning } from './types'
 
   export let fretMap: FretMap
   export let frets: number = 22
-  export let tuning: Tuning = STANDARD_TUNING
+  export let tuning: Tuning = GUITAR_STANDARD_TUNING
   export let root: string
 
   //   just a range over the number of frets

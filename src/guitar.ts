@@ -12,8 +12,6 @@ import {
 } from 'tonal'
 import type { FretMap, Tuning } from './lib/types'
 
-export const STANDARD_TUNING: Tuning = ['E4', 'B3', 'G3', 'D3', 'A2', 'E2']
-
 export function rangeOfTuning(tuning: Tuning, frets: number) {
   const lowestNote = tuning[tuning.length - 1]
 
@@ -76,7 +74,8 @@ export function FretMapForScale(
 
   const combinedScaleNotes = scaleNotesInRange(tuning, frets, scale.notes)
 
-  const fretMap: FretMap = [[], [], [], [], [], []]
+  // an array of empty arrays, as long as the tuning
+  const fretMap: FretMap = tuning.map((string) => [])
   for (let i = 0; i < fretMap.length; i++) {
     // for note in scale, do the following
     for (let note of combinedScaleNotes) {

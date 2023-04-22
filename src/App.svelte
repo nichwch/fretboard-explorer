@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { FretMapForScale, STANDARD_TUNING } from './guitar'
+  import { FretMapForScale } from './guitar'
   import FretMap from './lib/FretMap.svelte'
   import GuitarTabDisplay from './lib/GuitarTabDisplay.svelte'
   import Counter from './lib/GuitarTabDisplay.svelte'
+  import { BASS_STANDARD_TUNING, GUITAR_STANDARD_TUNING } from './lib/tunings'
   import type { Phrase } from './lib/types'
 
   // tasty little pentatonic lick
@@ -14,7 +15,7 @@
     [0, 0, 5, 0, 0, 0],
     [0, 0, 7, 0, 0, 0],
   ]
-  const tabMapTest = FretMapForScale(STANDARD_TUNING, 24, 'B minor')
+  const tabMapTest = FretMapForScale(BASS_STANDARD_TUNING, 24, 'B minor')
   console.log(tabMapTest)
 </script>
 
@@ -24,7 +25,7 @@
     <p>
       Practicing svelte by creating some tools to help with guitar practice.
     </p>
-    <FretMap fretMap={tabMapTest} root="B" />
+    <FretMap fretMap={tabMapTest} root="B" tuning={BASS_STANDARD_TUNING} />
   </div>
 </main>
 
