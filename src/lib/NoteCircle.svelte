@@ -1,13 +1,13 @@
 <script lang="ts">
   import { noteByStringAndFret } from '../guitar'
+  import { hoveredNote } from './hoveredNoteStore'
   import type { FretMap, Tuning } from './types'
-  import { type NoteWithOctave } from 'tonal'
 
   export let stringIndex: number
   export let fretIndex: number
   export let fretMap: FretMap
   export let tuning: Tuning
-  export let root: NoteWithOctave
+  export let root: string
 
   function fretPressedInFretMap(string: number, fret: number) {
     return fretMap[string].includes(fret)
@@ -19,6 +19,8 @@
   }
 </script>
 
+<!-- hover target -->
+
 {#if fretPressedInFretMap(stringIndex, fretIndex + 1)}
   <circle
     cx={50 * fretIndex + 75}
@@ -26,6 +28,10 @@
     r="10"
     fill={isRoot(stringIndex, fretIndex + 1) ? 'black' : 'white'}
     stroke="black"
+    stroke-dasharray={$hoveredNote ===
+    noteByStringAndFret(tuning, stringIndex, fretIndex + 1)
+      ? '4,4'
+      : '0'}
   />
   <text
     data-v-6d8a98b6=""
@@ -39,7 +45,7 @@
   >
     {noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   </text>
-{:else}
+{:else if $hoveredNote === noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   <!-- show this only on hover -->
   <circle cx={50 * fretIndex + 75} cy={stringIndex * 25} r="10" fill="white" />
   <text
@@ -55,3 +61,15 @@
     {noteByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   </text>
 {/if}
+<circle
+  cx={50 * fretIndex + 75}
+  cy={stringIndex * 25}
+  r="10"
+  fill="transparent"
+  on:mouseenter={() => {
+    hoveredNote.set(noteByStringAndFret(tuning, stringIndex, fretIndex + 1))
+  }}
+  on:mouseleave={() => {
+    hoveredNote.set(null)
+  }}
+/>

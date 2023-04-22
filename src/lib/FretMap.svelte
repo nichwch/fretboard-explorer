@@ -2,12 +2,11 @@
   import { STANDARD_TUNING, noteByStringAndFret } from '../guitar'
   import NoteCircle from './NoteCircle.svelte'
   import type { FretMap, Phrase, Tuning } from './types'
-  import { type NoteWithOctave } from 'tonal'
 
   export let fretMap: FretMap
   export let frets: number = 22
   export let tuning: Tuning = STANDARD_TUNING
-  export let root: NoteWithOctave
+  export let root: string
 
   //   just a range over the number of frets
   $: fretArray = [...Array(frets).keys()]
