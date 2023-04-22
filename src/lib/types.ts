@@ -11,14 +11,7 @@ export type Chord = [
 ]
 export type Phrase = Chord[]
 
-export type Tuning = [
-  NoteWithOctave,
-  NoteWithOctave,
-  NoteWithOctave,
-  NoteWithOctave,
-  NoteWithOctave,
-  NoteWithOctave
-]
+export type Tuning = NoteWithOctave[]
 
 export type FretMap = [
   number[],

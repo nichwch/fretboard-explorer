@@ -40,7 +40,18 @@ export function scaleNotesInRange(
   return scaleInRange
 }
 
-export function noteOnString(
+export function noteByStringAndFret(
+  tuning: Tuning,
+  stringIndex: number,
+  fretIndex: number
+) {
+  const openNote = tuning[stringIndex]
+  const interval = Interval.fromSemitones(fretIndex)
+  const note = Note.transpose(openNote, interval)
+  return Note.get(note).pc
+}
+
+export function fretForNoteOnString(
   tuning: Tuning,
   stringIndex: number,
   noteWithOctave: NoteWithOctave
@@ -69,7 +80,7 @@ export function FretMapForScale(
   for (let i = 0; i < fretMap.length; i++) {
     // for note in scale, do the following
     for (let note of combinedScaleNotes) {
-      const fretOfNoteOnString = noteOnString(tuning, i, note)
+      const fretOfNoteOnString = fretForNoteOnString(tuning, i, note)
       if (fretOfNoteOnString >= 0) {
         fretMap[i].push(fretOfNoteOnString)
       }

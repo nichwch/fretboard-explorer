@@ -24,7 +24,7 @@
     <p>
       Practicing svelte by creating some tools to help with guitar practice.
     </p>
-    <FretMap fretMap={tabMapTest} />
+    <FretMap fretMap={tabMapTest} root="B" />
   </div>
 </main>
 
