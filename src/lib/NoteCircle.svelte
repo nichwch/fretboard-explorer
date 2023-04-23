@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { noteByStringAndFret as pcByStringAndFret } from '../guitar'
+  import { noteByStringAndFret as pcByStringAndFret } from './guitar'
   import { hoveredNote as hoveredPC } from './hoveredNoteStore'
   import type { FretMap, Tuning } from './types'
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { noteByStringAndFret } from '../guitar'
   import NoteCircle from './NoteCircle.svelte'
   import { GUITAR_STANDARD_TUNING } from './tunings'
   import type { FretMap, Phrase, Tuning } from './types'

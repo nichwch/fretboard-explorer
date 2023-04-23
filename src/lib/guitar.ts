@@ -12,7 +12,7 @@ import {
   type IntervalName,
   Chord,
 } from 'tonal'
-import type { FretMap, Tuning } from './lib/types'
+import type { FretMap, Tuning } from './types'
 
 export function rangeOfTuning(tuning: Tuning, frets: number) {
   const lowestNote = tuning[tuning.length - 1]

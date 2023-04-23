@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FretMapForChord, FretMapForScale } from './guitar'
+  import { FretMapForChord, FretMapForScale } from './lib/guitar'
   import FretMap from './lib/FretMap.svelte'
   import GuitarTabDisplay from './lib/GuitarTabDisplay.svelte'
   import Counter from './lib/GuitarTabDisplay.svelte'
