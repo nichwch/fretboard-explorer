@@ -9,6 +9,8 @@ import {
   Range,
   type NoteName,
   PcSet,
+  type IntervalName,
+  Chord,
 } from 'tonal'
 import type { FretMap, Tuning } from './lib/types'
 
@@ -21,15 +23,15 @@ export function rangeOfTuning(tuning: Tuning, frets: number) {
   return range
 }
 
-export function scaleNotesInRange(
+export function notesInPcAndRange(
   tuning: Tuning,
   frets: number,
-  scale: NoteName[]
-) {
+  pitchClasses: NoteName[]
+): NoteName[] {
   const scaleInRange = []
   const range = rangeOfTuning(tuning, frets)
-  const isInScale = PcSet.isNoteIncludedIn(scale)
-  const scalePitchClass = PcSet.get(scale)
+  const isInScale = PcSet.isNoteIncludedIn(pitchClasses)
+  const scalePitchClass = PcSet.get(pitchClasses)
   for (let note of range) {
     if (isInScale(note)) {
       scaleInRange.push(note)
@@ -63,6 +65,13 @@ export function fretForNoteOnString(
   return semitonesToTarget
 }
 
+export function FretMapForChord(tuning: Tuning, frets: number, chord: string) {
+  const chordNotes = Chord.get(chord).notes
+  const chordNotesInRange = notesInPcAndRange(tuning, frets, chordNotes)
+
+  return GetFretMapGivenNotes(tuning, frets, chordNotesInRange)
+}
+
 export function FretMapForScale(
   tuning: Tuning,
   frets: number,
@@ -72,13 +81,20 @@ export function FretMapForScale(
   const scaleRoot = scale.tonic
   const scaleType = scale.type
 
-  const combinedScaleNotes = scaleNotesInRange(tuning, frets, scale.notes)
+  const scaleNotesInRange = notesInPcAndRange(tuning, frets, scale.notes)
+  return GetFretMapGivenNotes(tuning, frets, scaleNotesInRange)
+}
 
+export function GetFretMapGivenNotes(
+  tuning: Tuning,
+  frets: number,
+  notes: NoteWithOctave[]
+) {
   // an array of empty arrays, as long as the tuning
   const fretMap: FretMap = tuning.map((string) => [])
   for (let i = 0; i < fretMap.length; i++) {
     // for note in scale, do the following
-    for (let note of combinedScaleNotes) {
+    for (let note of notes) {
       const fretOfNoteOnString = fretForNoteOnString(tuning, i, note)
       if (fretOfNoteOnString >= 0) {
         fretMap[i].push(fretOfNoteOnString)
