@@ -17,13 +17,6 @@
     height: 120px;
     display: inline-flex;
   }
-  .line {
-    display: block;
-    width: 15px;
-    height: 16.66%;
-    border-bottom: 1px solid black;
-  }
-
   .note {
     display: block;
     height: 16.66%;

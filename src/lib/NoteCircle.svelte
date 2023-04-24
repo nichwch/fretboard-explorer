@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { colors } from '../utils/style-constants'
   import { noteByStringAndFret as pcByStringAndFret } from './guitar'
   import { hoveredNote as hoveredPC } from './hoveredNoteStore'
   import type { FretMap, Tuning } from './types'
@@ -26,7 +27,7 @@
     cx={50 * fretIndex + 75}
     cy={stringIndex * 25}
     r="10"
-    fill={isRoot(stringIndex, fretIndex + 1) ? 'black' : 'white'}
+    fill={isRoot(stringIndex, fretIndex + 1) ? 'black' : colors.green[200]}
     stroke="black"
     stroke-dasharray={$hoveredPC ===
       pcByStringAndFret(tuning, stringIndex, fretIndex + 1) &&
@@ -40,7 +41,7 @@
     x={50 * fretIndex + 75}
     y={stringIndex * 25}
     dominant-baseline="central"
-    fill={isRoot(stringIndex, fretIndex + 1) ? 'white' : 'black'}
+    fill={isRoot(stringIndex, fretIndex + 1) ? colors.green[100] : 'black'}
     font-weight="normal"
     text-anchor="middle"
   >
@@ -48,7 +49,12 @@
   </text>
 {:else if $hoveredPC === pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
   <!-- show this only on hover -->
-  <circle cx={50 * fretIndex + 75} cy={stringIndex * 25} r="10" fill="white" />
+  <circle
+    cx={50 * fretIndex + 75}
+    cy={stringIndex * 25}
+    r="10"
+    fill={colors.green[100]}
+  />
   <text
     data-v-6d8a98b6=""
     font-size="11"
