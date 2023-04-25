@@ -9,31 +9,25 @@
   export let fretMap: FretMap
   export let tuning: Tuning
   export let root: string
-  console.log('note RENDER?', root)
-  function fretPressedInFretMap(string: number, fret: number) {
-    return fretMap[string].includes(fret)
+  $: {
+    console.log('note render', root, fretMap)
   }
 
-  function isRoot(string: number, fret: number) {
-    const note = pcByStringAndFret(tuning, string, fret)
-    return note === root
-  }
+  $: fretPressedInFretMap = fretMap[stringIndex].includes(fretIndex + 1)
+  $: isRoot = pcByStringAndFret(tuning, stringIndex, fretIndex + 1) === root
+  $: currentPitchClass = pcByStringAndFret(tuning, stringIndex, fretIndex + 1)
 </script>
 
 <!-- hover target -->
 
-{#if fretPressedInFretMap(stringIndex, fretIndex + 1)}
+{#if fretPressedInFretMap}
   <circle
     cx={50 * fretIndex + 75}
     cy={stringIndex * 25}
     r="10"
-    fill={isRoot(stringIndex, fretIndex + 1) ? 'black' : colors.green[200]}
+    fill={isRoot ? 'black' : colors.green[200]}
     stroke="black"
-    stroke-dasharray={$hoveredPC ===
-      pcByStringAndFret(tuning, stringIndex, fretIndex + 1) &&
-    !isRoot(stringIndex, fretIndex + 1)
-      ? '4,4'
-      : '0'}
+    stroke-dasharray={$hoveredPC === currentPitchClass && !isRoot ? '4,4' : '0'}
   />
   <text
     data-v-6d8a98b6=""
@@ -41,13 +35,13 @@
     x={50 * fretIndex + 75}
     y={stringIndex * 25}
     dominant-baseline="central"
-    fill={isRoot(stringIndex, fretIndex + 1) ? colors.green[100] : 'black'}
+    fill={isRoot ? colors.green[100] : 'black'}
     font-weight="normal"
     text-anchor="middle"
   >
-    {pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+    {currentPitchClass}
   </text>
-{:else if $hoveredPC === pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+{:else if $hoveredPC === currentPitchClass}
   <!-- show this only on hover -->
   <circle
     cx={50 * fretIndex + 75}
@@ -61,11 +55,11 @@
     x={50 * fretIndex + 75}
     y={stringIndex * 25}
     dominant-baseline="central"
-    fill={isRoot(stringIndex, fretIndex + 1) ? 'white' : 'black'}
+    fill={isRoot ? 'white' : 'black'}
     font-weight="normal"
     text-anchor="middle"
   >
-    {pcByStringAndFret(tuning, stringIndex, fretIndex + 1)}
+    {currentPitchClass}
   </text>
 {/if}
 <circle
@@ -74,7 +68,7 @@
   r="10"
   fill="transparent"
   on:mouseenter={() => {
-    hoveredPC.set(pcByStringAndFret(tuning, stringIndex, fretIndex + 1))
+    hoveredPC.set(currentPitchClass)
   }}
   on:mouseleave={() => {
     hoveredPC.set(null)

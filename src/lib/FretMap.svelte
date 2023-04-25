@@ -8,7 +8,10 @@
   export let tuning: Tuning = GUITAR_STANDARD_TUNING
   export let root: string
   let fretArray = [...Array(frets).keys()]
-  console.log('fretmap render', root)
+  $: {
+    console.log('fretmap render', root, fretMap)
+  }
+
   //   just a range over the number of frets
   $: {
     fretMap
