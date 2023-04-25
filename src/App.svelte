@@ -6,6 +6,7 @@
   import { BASS_STANDARD_TUNING, GUITAR_STANDARD_TUNING } from './lib/tunings'
   import type { Phrase } from './lib/types'
   import { colors, spacing } from './utils/style-constants'
+  import FretMapBlock from './lib/FretMapBlock.svelte'
 
   // tasty little pentatonic lick
   let testTab: Phrase = [
@@ -39,16 +40,12 @@
       >
         sidenav
       </div>
-      <div id="contentContainer">
+      <div id="contentContainer" style:padding={spacing[3]}>
         <h1>Guitar tools</h1>
         <p>
           Practicing svelte by creating some tools to help with guitar practice.
         </p>
-        <FretMap
-          fretMap={tabMapTest}
-          root="B"
-          tuning={GUITAR_STANDARD_TUNING}
-        />
+        <FretMapBlock />
       </div>
     </div>
   </div>

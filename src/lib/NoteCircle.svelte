@@ -9,7 +9,7 @@
   export let fretMap: FretMap
   export let tuning: Tuning
   export let root: string
-
+  console.log('note RENDER?', root)
   function fretPressedInFretMap(string: number, fret: number) {
     return fretMap[string].includes(fret)
   }

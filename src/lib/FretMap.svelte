@@ -1,15 +1,19 @@
 <script lang="ts">
   import NoteCircle from './NoteCircle.svelte'
-  import { GUITAR_STANDARD_TUNING } from './tunings'
+  import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
   import type { FretMap, Phrase, Tuning } from './types'
 
   export let fretMap: FretMap
-  export let frets: number = 22
+  export let frets: number = GUITAR_STANDARD_FRETS
   export let tuning: Tuning = GUITAR_STANDARD_TUNING
   export let root: string
-
+  let fretArray = [...Array(frets).keys()]
+  console.log('fretmap render', root)
   //   just a range over the number of frets
-  $: fretArray = [...Array(frets).keys()]
+  $: {
+    fretMap
+    fretArray = [...Array(frets).keys()]
+  }
 </script>
 
 <svg width="2000px" height="200px">
