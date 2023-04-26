@@ -35,6 +35,7 @@
   style:padding={spacing[3]}
   style:background-color={colors.green[200]}
   style:border-radius={borderRadius.lg}
+  style:margin-bottom={spacing[5]}
 >
   <!-- controls -->
   <div>
