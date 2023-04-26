@@ -21,7 +21,7 @@
   // const tabMapTest = FretMapForChord(GUITAR_STANDARD_TUNING, 24, 'Bm')
 </script>
 
-<main style:background-color={colors.green[100]}>
+<main style:background-color={colors.green[100]} style:height="100%">
   <div id="main">
     <div
       id="topNav"
@@ -37,13 +37,32 @@
         style:padding={spacing[3]}
         style:border-right={`1px solid black`}
       >
-        sidenav
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
+        <h1>sidenav</h1>
       </div>
       <div id="contentContainer" style:padding={spacing[3]}>
-        <h1>Guitar tools</h1>
-        <p>
-          Practicing svelte by creating some tools to help with guitar practice.
-        </p>
+        <h1>Practice Routine 1</h1>
+        <FretMapBlock />
+        <FretMapBlock />
+        <FretMapBlock />
+        <FretMapBlock />
+        <FretMapBlock />
+        <FretMapBlock />
+        <FretMapBlock />
         <FretMapBlock />
       </div>
     </div>
@@ -63,5 +82,15 @@
 
   #beneathNav {
     display: flex;
+    flex-grow: 1;
+    /* stupidest css hack ever but neccessary for scrolling to work here */
+    height: 1px;
+  }
+
+  #sideNav {
+    overflow-y: auto;
+  }
+  #contentContainer {
+    overflow-y: auto;
   }
 </style>
