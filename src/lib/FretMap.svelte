@@ -20,7 +20,7 @@
 </script>
 
 <svg width="2000px" height="200px">
-  <g transform="translate(80, 50)">
+  <g transform="translate(0, 50)">
     <!-- the nut -->
     <line
       data-v-6d8a98b6=""
