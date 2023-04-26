@@ -1,13 +1,10 @@
 <script lang="ts">
   import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
   import type { Tuning } from './types'
-  import {
-    FretMapForChord,
-    FretMapForScale,
-    GetFretMapGivenNotes,
-  } from './guitar'
+  import { FretMapForChord, FretMapForScale } from './guitar'
   import FretMap from './FretMap.svelte'
   import { ScaleType, type NoteName, ChordType, Scale } from 'tonal'
+  import { borderRadius, colors, spacing } from '../utils/style-constants'
 
   let frets: number = GUITAR_STANDARD_FRETS
   let tuning: Tuning = GUITAR_STANDARD_TUNING
@@ -23,7 +20,6 @@
   let allRoots = Scale.get('A chromatic').notes
 
   $: {
-    console.log(mode, root, chordType, scaleType, fretMap)
     if (mode === 'scale') {
       let scaleName = `${root} ${scaleType}`
       fretMap = FretMapForScale(tuning, frets, scaleName)
@@ -31,10 +27,15 @@
       let chordName = `${root} ${chordType}`
       fretMap = FretMapForChord(tuning, frets, chordName)
     }
+    console.log(mode, root, chordType, scaleType, fretMap)
   }
 </script>
 
-<div>
+<div
+  style:padding={spacing[3]}
+  style:background-color={colors.green[200]}
+  style:border-radius={borderRadius.lg}
+>
   <!-- controls -->
   <div>
     <select bind:value={mode}>
@@ -54,8 +55,13 @@
       </select>
     {:else if mode === 'chord'}
       <select bind:value={chordType}>
-        {#each allChords as { name }}
-          <option value={name}>{name}</option>
+        {#each allChords as xChordType}
+          <!-- some chords do not have proper names and can only be identified 
+        by their aliases
+        -->
+          <option value={xChordType.name || xChordType?.aliases?.[0]}
+            >{xChordType.name || xChordType?.aliases?.[0]}</option
+          >
         {/each}
       </select>
     {/if}
