@@ -18,8 +18,7 @@
     [0, 0, 7, 0, 0, 0],
   ]
   // const tabMapTest = FretMapForScale(BASS_STANDARD_TUNING, 24, 'B minor')
-  const tabMapTest = FretMapForChord(GUITAR_STANDARD_TUNING, 24, 'Bm')
-  console.log(tabMapTest)
+  // const tabMapTest = FretMapForChord(GUITAR_STANDARD_TUNING, 24, 'Bm')
 </script>
 
 <main style:background-color={colors.green[100]}>
