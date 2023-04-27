@@ -8,6 +8,9 @@
   import { borderRadius, colors, spacing } from '../utils/style-constants'
   import { setContext } from 'svelte'
 
+  export let stringSpacing = 25
+  export let fretSpacing = 50
+
   let frets: number = GUITAR_STANDARD_FRETS
   let tuning: Tuning = GUITAR_STANDARD_TUNING
 
@@ -23,6 +26,8 @@
 
   let fretMapHoveredNote = writable<NoteName | null>(null)
   setContext('fretMapHoveredNote', fretMapHoveredNote)
+  setContext('stringSpacing', stringSpacing)
+  setContext('fretSpacing', fretSpacing)
 
   $: {
     if (mode === 'scale') {

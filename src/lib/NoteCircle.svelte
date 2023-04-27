@@ -11,9 +11,9 @@
   export let fretMap: FretMap
   export let tuning: Tuning
   export let root: string
-  $: {
-    console.log('note render', root, fretMap)
-  }
+
+  const stringSpacing: number = getContext('stringSpacing')
+  const fretSpacing: number = getContext('fretSpacing')
 
   let fretMapHoveredNote: Writable<NoteName | null> =
     getContext('fretMapHoveredNote')
@@ -27,8 +27,8 @@
 
 {#if fretPressedInFretMap}
   <circle
-    cx={50 * fretIndex + 75}
-    cy={stringIndex * 25}
+    cx={fretSpacing * fretIndex + fretSpacing / 2}
+    cy={stringIndex * stringSpacing}
     r="10"
     fill={isRoot ? 'black' : colors.green[100]}
     stroke="black"
@@ -39,8 +39,8 @@
   <text
     data-v-6d8a98b6=""
     font-size="11"
-    x={50 * fretIndex + 75}
-    y={stringIndex * 25}
+    x={fretSpacing * fretIndex + fretSpacing / 2}
+    y={stringIndex * stringSpacing}
     dominant-baseline="central"
     fill={isRoot ? 'white' : 'black'}
     font-weight="normal"
@@ -51,16 +51,16 @@
 {:else if $fretMapHoveredNote === currentPitchClass}
   <!-- show this only on hover -->
   <circle
-    cx={50 * fretIndex + 75}
-    cy={stringIndex * 25}
+    cx={fretSpacing * fretIndex + fretSpacing / 2}
+    cy={stringIndex * stringSpacing}
     r="10"
     fill={colors.green[100]}
   />
   <text
     data-v-6d8a98b6=""
     font-size="11"
-    x={50 * fretIndex + 75}
-    y={stringIndex * 25}
+    x={fretSpacing * fretIndex + fretSpacing / 2}
+    y={stringIndex * stringSpacing}
     dominant-baseline="central"
     fill={isRoot ? 'white' : 'black'}
     font-weight="normal"
@@ -70,8 +70,8 @@
   </text>
 {/if}
 <circle
-  cx={50 * fretIndex + 75}
-  cy={stringIndex * 25}
+  cx={fretSpacing * fretIndex + fretSpacing / 2}
+  cy={stringIndex * stringSpacing}
   r="10"
   fill="transparent"
   on:mouseenter={() => {
