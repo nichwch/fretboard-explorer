@@ -36,9 +36,9 @@
   }
 </script>
 
-<div style:border-top="1px solid black" style:margin-top={spacing[5]}>
+<div style:border-bottom="1px solid black" style:margin-top={spacing[5]}>
   <!-- controls -->
-  <div style:padding={spacing[3]}>
+  <div style:padding={spacing[5]}>
     <select bind:value={mode} style:background-color={colors.red[100]}>
       <option value="chord"> Chord </option>
       <option value="scale"> Scale </option>

@@ -55,16 +55,28 @@
         <h1>sidenav</h1>
         <h1>sidenav</h1>
       </div>
-      <div id="contentContainer" style:padding={spacing[3]}>
-        <h1>Practice Routine 1</h1>
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
-        <FretMapBlock />
+      <div
+        style:display="flex"
+        style:flex-direction="column"
+        style:height="100%"
+      >
+        <h1
+          style:padding={spacing[5]}
+          style:margin="0px"
+          style:border-bottom="1px solid black"
+        >
+          Practice Routine 1
+        </h1>
+        <div style:overflow-y="auto">
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+          <FretMapBlock />
+        </div>
       </div>
     </div>
   </div>
@@ -89,9 +101,6 @@
   }
 
   #sideNav {
-    overflow-y: auto;
-  }
-  #contentContainer {
     overflow-y: auto;
   }
 </style>
