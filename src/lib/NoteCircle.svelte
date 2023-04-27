@@ -42,7 +42,7 @@
     x={50 * fretIndex + 75}
     y={stringIndex * 25}
     dominant-baseline="central"
-    fill={isRoot ? colors.green[100] : 'black'}
+    fill={isRoot ? 'white' : 'black'}
     font-weight="normal"
     text-anchor="middle"
   >
