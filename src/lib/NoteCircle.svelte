@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { getContext } from 'svelte'
   import { colors } from '../utils/style-constants'
   import { noteByStringAndFret as pcByStringAndFret } from './guitar'
-  import { hoveredNote as hoveredPC } from './hoveredNoteStore'
   import type { FretMap, Tuning } from './types'
+  import type { NoteName } from 'tonal'
 
   export let stringIndex: number
   export let fretIndex: number
@@ -12,6 +13,8 @@
   $: {
     console.log('note render', root, fretMap)
   }
+
+  let fretMapHoveredNote: NoteName | null = getContext('fretMapHoveredNote')
 
   $: fretPressedInFretMap = fretMap[stringIndex].includes(fretIndex + 1)
   $: isRoot = pcByStringAndFret(tuning, stringIndex, fretIndex + 1) === root
@@ -27,7 +30,9 @@
     r="10"
     fill={isRoot ? 'black' : colors.green[200]}
     stroke="black"
-    stroke-dasharray={$hoveredPC === currentPitchClass && !isRoot ? '4,4' : '0'}
+    stroke-dasharray={$fretMapHoveredNote === currentPitchClass && !isRoot
+      ? '4,4'
+      : '0'}
   />
   <text
     data-v-6d8a98b6=""
@@ -41,7 +46,7 @@
   >
     {currentPitchClass}
   </text>
-{:else if $hoveredPC === currentPitchClass}
+{:else if $fretMapHoveredNote === currentPitchClass}
   <!-- show this only on hover -->
   <circle
     cx={50 * fretIndex + 75}
@@ -68,9 +73,9 @@
   r="10"
   fill="transparent"
   on:mouseenter={() => {
-    hoveredPC.set(currentPitchClass)
+    fretMapHoveredNote.set(currentPitchClass)
   }}
   on:mouseleave={() => {
-    hoveredPC.set(null)
+    fretMapHoveredNote.set(null)
   }}
 />

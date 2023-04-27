@@ -1,10 +1,12 @@
 <script lang="ts">
   import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
   import type { Tuning } from './types'
+  import { writable } from 'svelte/store'
   import { FretMapForChord, FretMapForScale } from './guitar'
   import FretMap from './FretMap.svelte'
   import { ScaleType, type NoteName, ChordType, Scale } from 'tonal'
   import { borderRadius, colors, spacing } from '../utils/style-constants'
+  import { setContext } from 'svelte'
 
   let frets: number = GUITAR_STANDARD_FRETS
   let tuning: Tuning = GUITAR_STANDARD_TUNING
@@ -18,6 +20,9 @@
   let allScales = ScaleType.all()
   let allChords = ChordType.all()
   let allRoots = Scale.get('A chromatic').notes
+
+  let fretMapHoveredNote = writable<NoteName | null>(null)
+  setContext('fretMapHoveredNote', fretMapHoveredNote)
 
   $: {
     if (mode === 'scale') {
