@@ -19,7 +19,7 @@
   }
 </script>
 
-<svg width="2000px" height="200px">
+<svg width="1000px" height="200px">
   <g transform="translate(0, 50)">
     <!-- the nut -->
     <line

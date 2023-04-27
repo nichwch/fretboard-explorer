@@ -5,7 +5,7 @@
   import Counter from './lib/GuitarTabDisplay.svelte'
   import { BASS_STANDARD_TUNING, GUITAR_STANDARD_TUNING } from './lib/tunings'
   import type { Phrase } from './lib/types'
-  import { colors, spacing } from './utils/style-constants'
+  import { colors, sizes, spacing } from './utils/style-constants'
   import FretMapBlock from './lib/FretMapBlock.svelte'
 
   // tasty little pentatonic lick
@@ -34,31 +34,39 @@
     <div id="beneathNav">
       <!-- main -->
       <div
-        id="sideNav"
-        style:padding={spacing[3]}
         style:border-right={`1px solid black`}
+        style:flex-basis={sizes['2xs']}
+        style:flex-grow="0"
       >
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
-        <h1>sidenav</h1>
+        <div
+          style:overflow-y="auto"
+          style:height="100%"
+          style:padding={spacing[3]}
+          style:box-sizing="border-box"
+        >
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+          <h1>sidenav</h1>
+        </div>
       </div>
       <div
         style:display="flex"
         style:flex-direction="column"
         style:height="100%"
+        style:flex-grow="1"
       >
         <h1
           style:padding={spacing[5]}
@@ -98,9 +106,5 @@
     flex-grow: 1;
     /* stupidest css hack ever but neccessary for scrolling to work here */
     height: 1px;
-  }
-
-  #sideNav {
-    overflow-y: auto;
   }
 </style>

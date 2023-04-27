@@ -36,7 +36,11 @@
   }
 </script>
 
-<div style:border-bottom="1px solid black" style:margin-top={spacing[5]}>
+<div
+  style:border-bottom="1px solid black"
+  style:margin-top={spacing[5]}
+  style:width="100%"
+>
   <!-- controls -->
   <div style:padding={spacing[5]}>
     <select bind:value={mode} style:background-color={colors.red[100]}>
