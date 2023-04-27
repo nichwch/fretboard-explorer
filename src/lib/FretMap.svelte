@@ -3,6 +3,7 @@
   import NoteCircle from './NoteCircle.svelte'
   import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
   import type { FretMap, Phrase, Tuning } from './types'
+  import { spacing } from '../utils/style-constants'
 
   export let fretMap: FretMap
   export let frets: number = GUITAR_STANDARD_FRETS
@@ -25,8 +26,8 @@
   const fretSpacing: number = getContext('fretSpacing')
 </script>
 
-<svg width="1000px" height="200px">
-  <g transform="translate(0, 50)">
+<svg width="1000px" height="200px" style:padding-left={spacing[5]}>
+  <g transform={`translate(0, 25)`}>
     <!-- the nut -->
     <line
       data-v-6d8a98b6=""
