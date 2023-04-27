@@ -39,11 +39,11 @@
 <div style:border-top="1px solid black" style:margin-top={spacing[5]}>
   <!-- controls -->
   <div style:padding={spacing[3]}>
-    <select bind:value={mode} style:background-color={colors.red[200]}>
+    <select bind:value={mode} style:background-color={colors.red[100]}>
       <option value="chord"> Chord </option>
       <option value="scale"> Scale </option>
     </select>
-    <select bind:value={root} style:background-color={colors.blue[200]}>
+    <select bind:value={root} style:background-color={colors.blue[100]}>
       {#each allRoots as root}
         <option value={root}>{root}</option>
       {/each}
@@ -51,7 +51,7 @@
     {#if mode === 'scale'}
       <select
         bind:value={scaleType}
-        style:background-color={colors.yellow[200]}
+        style:background-color={colors.yellow[100]}
       >
         {#each allScales as { name }}
           <option value={name}>{name}</option>
@@ -60,7 +60,7 @@
     {:else if mode === 'chord'}
       <select
         bind:value={chordType}
-        style:background-color={colors.yellow[200]}
+        style:background-color={colors.yellow[100]}
       >
         {#each allChords as xChordType}
           <!-- some chords do not have proper names and can only be identified 

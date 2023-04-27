@@ -26,6 +26,7 @@
     <div
       id="topNav"
       style:padding={spacing[3]}
+      style:background-color={colors.green[300]}
       style:border-bottom={`1px solid black`}
     >
       <span style:font-weight="bold">guitar tools</span>
