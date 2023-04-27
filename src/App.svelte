@@ -21,7 +21,7 @@
   // const tabMapTest = FretMapForChord(GUITAR_STANDARD_TUNING, 24, 'Bm')
 </script>
 
-<main style:background-color={colors.green[100]} style:height="100%">
+<main style:height="100%">
   <div id="main">
     <div
       id="topNav"

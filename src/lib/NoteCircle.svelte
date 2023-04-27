@@ -30,7 +30,7 @@
     cx={50 * fretIndex + 75}
     cy={stringIndex * 25}
     r="10"
-    fill={isRoot ? 'black' : colors.green[200]}
+    fill={isRoot ? 'black' : colors.green[100]}
     stroke="black"
     stroke-dasharray={$fretMapHoveredNote === currentPitchClass && !isRoot
       ? '4,4'

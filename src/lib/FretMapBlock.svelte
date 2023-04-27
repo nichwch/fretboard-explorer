@@ -36,33 +36,32 @@
   }
 </script>
 
-<div
-  style:background-color={colors.green[200]}
-  style:border-radius={borderRadius.lg}
-  style:margin-bottom={spacing[5]}
-  style:display="inline-block"
-  style:resize="inline"
-  style:width="500px"
->
+<div style:border-top="1px solid black" style:margin-top={spacing[5]}>
   <!-- controls -->
   <div style:padding={spacing[3]}>
-    <select bind:value={mode} style:background-color={colors.green[50]}>
+    <select bind:value={mode} style:background-color={colors.red[200]}>
       <option value="chord"> Chord </option>
       <option value="scale"> Scale </option>
     </select>
-    <select bind:value={root} style:background-color={colors.green[50]}>
+    <select bind:value={root} style:background-color={colors.blue[200]}>
       {#each allRoots as root}
         <option value={root}>{root}</option>
       {/each}
     </select>
     {#if mode === 'scale'}
-      <select bind:value={scaleType} style:background-color={colors.green[50]}>
+      <select
+        bind:value={scaleType}
+        style:background-color={colors.yellow[200]}
+      >
         {#each allScales as { name }}
           <option value={name}>{name}</option>
         {/each}
       </select>
     {:else if mode === 'chord'}
-      <select bind:value={chordType} style:background-color={colors.green[50]}>
+      <select
+        bind:value={chordType}
+        style:background-color={colors.yellow[200]}
+      >
         {#each allChords as xChordType}
           <!-- some chords do not have proper names and can only be identified 
         by their aliases
