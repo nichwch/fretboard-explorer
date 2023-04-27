@@ -4,6 +4,7 @@
   import { noteByStringAndFret as pcByStringAndFret } from './guitar'
   import type { FretMap, Tuning } from './types'
   import type { NoteName } from 'tonal'
+  import type { Writable } from 'svelte/store'
 
   export let stringIndex: number
   export let fretIndex: number
@@ -14,7 +15,8 @@
     console.log('note render', root, fretMap)
   }
 
-  let fretMapHoveredNote: NoteName | null = getContext('fretMapHoveredNote')
+  let fretMapHoveredNote: Writable<NoteName | null> =
+    getContext('fretMapHoveredNote')
 
   $: fretPressedInFretMap = fretMap[stringIndex].includes(fretIndex + 1)
   $: isRoot = pcByStringAndFret(tuning, stringIndex, fretIndex + 1) === root
