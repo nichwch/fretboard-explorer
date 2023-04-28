@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
+  import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './constants'
   import type { Tuning } from './types'
   import { writable } from 'svelte/store'
   import { FretMapForChord, FretMapForScale } from './guitar'

@@ -3,7 +3,7 @@
   import FretMap from './lib/FretMap.svelte'
   import GuitarTabDisplay from './lib/GuitarTabDisplay.svelte'
   import Counter from './lib/GuitarTabDisplay.svelte'
-  import { BASS_STANDARD_TUNING, GUITAR_STANDARD_TUNING } from './lib/tunings'
+  import { BASS_STANDARD_TUNING, GUITAR_STANDARD_TUNING } from './lib/constants'
   import type { Phrase } from './lib/types'
   import { colors, sizes, spacing } from './utils/style-constants'
   import FretMapBlock from './lib/FretMapBlock.svelte'

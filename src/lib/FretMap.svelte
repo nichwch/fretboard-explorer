@@ -1,9 +1,13 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import NoteCircle from './NoteCircle.svelte'
-  import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './tunings'
+  import {
+    FRET_INLAYS,
+    GUITAR_STANDARD_FRETS,
+    GUITAR_STANDARD_TUNING,
+  } from './constants'
   import type { FretMap, Phrase, Tuning } from './types'
-  import { spacing } from '../utils/style-constants'
+  import { colors, spacing } from '../utils/style-constants'
 
   export let fretMap: FretMap
   export let frets: number = GUITAR_STANDARD_FRETS
@@ -20,14 +24,57 @@
     fretArray = [...Array(frets).keys()]
   }
 
-  const fretInlays = [3, 5, 7, 9, 12, 15, 17, 19, 21]
-
+  let fretInlaysThatFit = FRET_INLAYS.filter((fret) => fret < frets)
+  const INLAY_OFFSET_FROM_FRET = 8
   const stringSpacing: number = getContext('stringSpacing')
   const fretSpacing: number = getContext('fretSpacing')
 </script>
 
 <svg width="1000px" height="200px" style:padding-left={spacing[5]}>
   <g transform={`translate(0, 25)`}>
+    <!-- fretboard inlays -->
+    {#each fretInlaysThatFit as fretInlayLocation}
+      {#if fretInlayLocation === 11}
+        <!-- twelfth fret inlay -->
+        <polygon
+          points={`${
+            fretInlayLocation * fretSpacing + INLAY_OFFSET_FROM_FRET
+          },${stringSpacing / 2} 
+      ${fretInlayLocation * fretSpacing + INLAY_OFFSET_FROM_FRET}, ${
+            (tuning.length - 1.5) * stringSpacing
+          } 
+      ${
+        fretInlayLocation * fretSpacing + fretSpacing - INLAY_OFFSET_FROM_FRET
+      }, ${(tuning.length - 1.5) * stringSpacing} 
+      ${
+        fretInlayLocation * fretSpacing + fretSpacing - INLAY_OFFSET_FROM_FRET
+      },${stringSpacing / 2} 
+  `}
+          fill={colors.gray[100]}
+          stroke={colors.gray[200]}
+        />
+      {:else}
+        <polygon
+          points={`${fretInlayLocation * fretSpacing + fretSpacing / 2},${
+            stringSpacing / 2
+          } 
+           ${fretInlayLocation * fretSpacing + INLAY_OFFSET_FROM_FRET},${
+            ((tuning.length - 1) / 2.0) * stringSpacing
+          } 
+          ${fretInlayLocation * fretSpacing + fretSpacing / 2}, ${
+            (tuning.length - 1.5) * stringSpacing
+          } 
+          ${
+            fretInlayLocation * fretSpacing +
+            fretSpacing -
+            INLAY_OFFSET_FROM_FRET
+          },${((tuning.length - 1) / 2.0) * stringSpacing} 
+          `}
+          fill={colors.gray[100]}
+          stroke={colors.gray[200]}
+        />
+      {/if}
+    {/each}
     <!-- the nut -->
     <line
       data-v-6d8a98b6=""
@@ -63,10 +110,6 @@
         stroke="#000"
         stroke-width="2px"
       />
-    {/each}
-    <!-- fretboard inlays -->
-    {#each fretInlays as fretInlayLocation}
-      <!-- <polygon points={`${}`}/> -->
     {/each}
   </g>
 </svg>
