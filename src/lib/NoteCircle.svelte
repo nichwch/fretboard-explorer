@@ -3,8 +3,9 @@
   import { colors } from '../utils/style-constants'
   import { noteByStringAndFret as pcByStringAndFret } from './guitar'
   import type { FretMap, Tuning } from './types'
-  import type { NoteName } from 'tonal'
+  import { Note, type NoteName } from 'tonal'
   import type { Writable } from 'svelte/store'
+  import { flatOrSharp } from './flatOrSharpStore'
 
   export let stringIndex: number
   export let fretIndex: number
@@ -17,10 +18,19 @@
 
   let fretMapHoveredNote: Writable<NoteName | null> =
     getContext('fretMapHoveredNote')
+  let currentPitchClass = pcByStringAndFret(tuning, stringIndex, fretIndex)
 
   $: fretPressedInFretMap = fretMap[stringIndex].includes(fretIndex)
   $: isRoot = pcByStringAndFret(tuning, stringIndex, fretIndex) === root
-  $: currentPitchClass = pcByStringAndFret(tuning, stringIndex, fretIndex)
+  // make them all match the accidentals the user has selected
+  $: {
+    let note = Note.get(pcByStringAndFret(tuning, stringIndex, fretIndex))
+    if ($flatOrSharp !== note.acc) {
+      currentPitchClass = Note.enharmonic(note.name)
+    } else {
+      currentPitchClass = note.name
+    }
+  }
 </script>
 
 <!-- hover target -->

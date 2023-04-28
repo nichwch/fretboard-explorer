@@ -4,9 +4,10 @@
   import { writable } from 'svelte/store'
   import { FretMapForChord, FretMapForScale } from './guitar'
   import FretMap from './FretMap.svelte'
-  import { ScaleType, type NoteName, ChordType, Scale } from 'tonal'
+  import { ScaleType, type NoteName, ChordType, Scale, Note } from 'tonal'
   import { borderRadius, colors, spacing } from '../utils/style-constants'
   import { setContext } from 'svelte'
+  import { flatOrSharp } from './flatOrSharpStore'
 
   export let stringSpacing = 25
   export let fretSpacing = 50
@@ -22,7 +23,13 @@
 
   let allScales = ScaleType.all()
   let allChords = ChordType.all()
-  let allRoots = Scale.get('A chromatic').notes
+  let allRoots = Scale.get('A chromatic').notes.map((note) => {
+    if ($flatOrSharp !== Note.get(note).acc) {
+      return Note.enharmonic(note)
+    } else {
+      return note
+    }
+  })
 
   let fretMapHoveredNote = writable<NoteName | null>(null)
   setContext('fretMapHoveredNote', fretMapHoveredNote)
