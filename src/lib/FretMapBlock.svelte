@@ -37,7 +37,6 @@
       let chordName = `${root} ${chordType}`
       fretMap = FretMapForChord(tuning, frets, chordName)
     }
-    console.log(mode, root, chordType, scaleType, fretMap)
   }
 </script>
 

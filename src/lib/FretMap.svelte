@@ -13,16 +13,7 @@
   export let frets: number = GUITAR_STANDARD_FRETS
   export let tuning: Tuning = GUITAR_STANDARD_TUNING
   export let root: string
-  let fretArray = [...Array(frets).keys()]
-  $: {
-    console.log('fretmap render', root, fretMap)
-  }
-
-  //   just a range over the number of frets
-  $: {
-    fretMap
-    fretArray = [...Array(frets).keys()]
-  }
+  let fretArray = [...Array(frets + 1).keys()]
 
   let fretInlaysThatFit = FRET_INLAYS.filter((fret) => fret < frets)
   const INLAY_OFFSET_FROM_FRET = 8
@@ -31,7 +22,7 @@
 </script>
 
 <svg width="1000px" height="200px" style:padding-left={spacing[5]}>
-  <g transform={`translate(0, 25)`}>
+  <g transform="translate(50, 25)">
     <!-- fretboard inlays -->
     {#each fretInlaysThatFit as fretInlayLocation}
       {#if fretInlayLocation === 11}
@@ -86,26 +77,29 @@
       stroke-width="5px"
     />
 
-    {#each fretArray as fret, fretIndex}
+    {#each fretArray as fretIndex}
       {#each tuning as openString, stringIndex}
-        <!-- string -->
-        <line
-          data-v-6d8a98b6=""
-          x1={fretSpacing * fretIndex}
-          y1={stringIndex * stringSpacing}
-          x2={fretSpacing * (fretIndex + 1)}
-          y2={stringIndex * stringSpacing}
-          stroke="#000"
-        />
+        {#if fretIndex > 0}
+          <!-- string -->
+          <line
+            data-v-6d8a98b6=""
+            x1={fretSpacing * (fretIndex - 1)}
+            y1={stringIndex * stringSpacing}
+            x2={fretSpacing * fretIndex}
+            y2={stringIndex * stringSpacing}
+            stroke="#000"
+          />
+        {/if}
+
         <!-- finger -->
         <NoteCircle {stringIndex} {fretIndex} {fretMap} {tuning} {root} />
       {/each}
       <!-- the fret -->
       <line
         data-v-6d8a98b6=""
-        x1={fretSpacing * (fretIndex + 1)}
+        x1={fretSpacing * fretIndex}
         y1="0"
-        x2={fretSpacing * (fretIndex + 1)}
+        x2={fretSpacing * fretIndex}
         y2={(tuning.length - 1) * stringSpacing}
         stroke="#000"
         stroke-width="2px"
