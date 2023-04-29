@@ -6,6 +6,7 @@
   import { Note, type NoteName } from 'tonal'
   import type { Writable } from 'svelte/store'
   import { flatOrSharp } from './flatOrSharpStore'
+  import { fade, fly } from 'svelte/transition'
 
   export let stringIndex: number
   export let fretIndex: number
@@ -37,6 +38,7 @@
 
 {#if fretPressedInFretMap}
   <circle
+    transition:fly={{ y: -20, duration: 300 }}
     cx={fretSpacing * fretIndex - fretSpacing / 2}
     cy={stringIndex * stringSpacing}
     r="10"
@@ -47,6 +49,7 @@
       : '0'}
   />
   <text
+    transition:fly={{ y: -20, duration: 300 }}
     data-v-6d8a98b6=""
     font-size="11"
     x={fretSpacing * fretIndex - fretSpacing / 2}
@@ -61,12 +64,14 @@
 {:else if $fretMapHoveredNote === currentPitchClass}
   <!-- show this only on hover -->
   <circle
+    transition:fade={{ duration: 200 }}
     cx={fretSpacing * fretIndex - fretSpacing / 2}
     cy={stringIndex * stringSpacing}
     r="10"
     fill={colors.green[100]}
   />
   <text
+    transition:fade={{ duration: 200 }}
     data-v-6d8a98b6=""
     font-size="11"
     x={fretSpacing * fretIndex - fretSpacing / 2}
