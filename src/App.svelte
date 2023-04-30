@@ -13,22 +13,21 @@
   import { fly } from 'svelte/transition'
   import { defaultFretMapBlockProps } from './lib/types'
   import { setContext } from 'svelte'
-  import { writable } from 'svelte/store'
+  import { readable, writable, type Readable } from 'svelte/store'
 
-  let currentPracticeSheetId: string | null = null
+  let currentPracticeSheetId = writable<string | null>(null)
   const allPracticeSheets = liveQuery(() =>
     db.practice_sheets.orderBy('creation_date').reverse().toArray()
   )
 
-  let currentPracticeSheet = writable<PracticeSheet | null>(null)
+  $: currentPracticeSheet = liveQuery(async () => {
+    const res = await db.practice_sheets.get($currentPracticeSheetId)
+    console.log('query id', $currentPracticeSheetId, res)
+    return res
+  })
 
-  $: {
-    db.practice_sheets.get(currentPracticeSheetId).then((res) => {
-      $currentPracticeSheet = res
-    })
-  }
+  setContext('currentPracticeSheetId', currentPracticeSheetId)
 
-  setContext('currentPracticeSheet', currentPracticeSheet)
   const createPracticeSheet = () => {
     const newId = nanoid()
     db.practice_sheets.add({
@@ -40,7 +39,7 @@
   }
 
   const createFretBoard = () => {
-    db.practice_sheets.update(currentPracticeSheetId, {
+    db.practice_sheets.update($currentPracticeSheetId, {
       ...$currentPracticeSheet,
       sheetContents: [
         ...$currentPracticeSheet.sheetContents,
@@ -48,6 +47,12 @@
       ],
     })
   }
+
+  $: console.log(
+    $allPracticeSheets,
+    $currentPracticeSheetId,
+    $currentPracticeSheet
+  )
 </script>
 
 <main style:height="100%">
@@ -93,7 +98,7 @@
           {#if allPracticeSheets}
             {#each $allPracticeSheets || [] as practiceSheet (practiceSheet.id)}
               <button
-                class:selected={currentPracticeSheetId === practiceSheet.id}
+                class:selected={$currentPracticeSheetId === practiceSheet.id}
                 class="practiceSheetButton"
                 transition:fly={{ y: 50, duration: 400 }}
                 style:box-sizing="border-box"
@@ -103,7 +108,8 @@
                 style:margin-top={spacing[3]}
                 style:border-radius={borderRadius.lg}
                 on:click={() => {
-                  currentPracticeSheetId = practiceSheet.id
+                  console.log('CLICKED', practiceSheet.id)
+                  $currentPracticeSheetId = practiceSheet.id
                 }}
               >
                 {practiceSheet.name}
@@ -118,7 +124,7 @@
         style:height="100%"
         style:flex-grow="1"
       >
-        {#if currentPracticeSheetId}
+        {#if $currentPracticeSheetId}
           <div style:padding={spacing[5]} style:border-bottom="1px solid black">
             <h1 style:margin="0px" style:display="inline-block">
               {$currentPracticeSheet?.name}
@@ -139,7 +145,7 @@
           </div>
 
           <div style:overflow-y="auto">
-            {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index}
+            {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (index + $currentPracticeSheetId)}
               <FretMapBlock {...fretMapBlock} {index} />
             {/each}
           </div>

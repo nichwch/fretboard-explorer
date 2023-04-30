@@ -1,6 +1,10 @@
 <script lang="ts">
   import { GUITAR_STANDARD_FRETS, GUITAR_STANDARD_TUNING } from './constants'
-  import type { FretMapBlockProps, Tuning } from './types'
+  import {
+    defaultFretMapBlockProps,
+    type FretMapBlockProps,
+    type Tuning,
+  } from './types'
   import { writable, type Writable } from 'svelte/store'
   import { FretMapForChord, FretMapForScale } from './guitar'
   import FretMap from './FretMap.svelte'
@@ -10,7 +14,7 @@
   import { flatOrSharp } from './flatOrSharpStore'
   import { fly } from 'svelte/transition'
   import { db, type PracticeSheet } from './db'
-  import type { Observable } from 'dexie'
+  import { liveQuery, type Observable } from 'dexie'
 
   export let stringSpacing = 25
   export let fretSpacing = 50
@@ -24,9 +28,18 @@
   export let scaleType: string | null = 'major'
   export let index: number
 
-  let currentPracticeSheet: Writable<PracticeSheet> = getContext(
-    'currentPracticeSheet'
+  let currentPracticeSheetId: Writable<string | null> = getContext(
+    'currentPracticeSheetId'
   )
+  $: {
+    console.log('currentPracticeSheetId2', $currentPracticeSheetId)
+  }
+
+  $: currentPracticeSheet = liveQuery(async () => {
+    const res = await db.practice_sheets.get($currentPracticeSheetId)
+    console.log('id2', $currentPracticeSheetId, res)
+    return res
+  })
 
   let fretMap = FretMapForScale(tuning, frets, `${root} ${scaleType}`)
 
@@ -55,23 +68,22 @@
     }
   }
 
-  $: {
-    let currentPracticeSheetId = $currentPracticeSheet?.id
-    if (currentPracticeSheetId !== undefined) {
-      let newSheetContents = [...$currentPracticeSheet.sheetContents]
-      let currentFretBlock = $currentPracticeSheet.sheetContents[index]
-      newSheetContents[index] = {
-        ...currentFretBlock,
-        frets,
-        tuning,
-        root,
-        mode,
-        chordType,
-        scaleType,
-      }
-      db.practice_sheets.update(currentPracticeSheetId, {
-        ...$currentPracticeSheet,
-        sheetContents: newSheetContents,
+  const updateSheets = () => {
+    let newBlock = {
+      ...defaultFretMapBlockProps,
+      frets,
+      tuning,
+      root,
+      mode,
+      chordType,
+      scaleType,
+    }
+    if ($currentPracticeSheet) {
+      let newSheet = [...$currentPracticeSheet?.sheetContents]
+      newSheet[index] = newBlock
+      console.log('new sheet update', newSheet)
+      db.practice_sheets.update($currentPracticeSheetId, {
+        sheetContents: newSheet,
       })
     }
   }
@@ -85,11 +97,19 @@
 >
   <!-- controls -->
   <div style:padding={spacing[5]}>
-    <select bind:value={mode} style:background-color={colors.red[100]}>
+    <select
+      bind:value={mode}
+      style:background-color={colors.red[100]}
+      on:change={updateSheets}
+    >
       <option value="chord"> Chord </option>
       <option value="scale"> Scale </option>
     </select>
-    <select bind:value={root} style:background-color={colors.blue[100]}>
+    <select
+      bind:value={root}
+      style:background-color={colors.blue[100]}
+      on:change={updateSheets}
+    >
       {#each allRoots as root}
         <option value={root}>{root}</option>
       {/each}
@@ -98,6 +118,7 @@
       <select
         bind:value={scaleType}
         style:background-color={colors.yellow[100]}
+        on:change={updateSheets}
       >
         {#each allScales as { name }}
           <option value={name}>{name}</option>
@@ -107,6 +128,7 @@
       <select
         bind:value={chordType}
         style:background-color={colors.yellow[100]}
+        on:change={updateSheets}
       >
         {#each allChords as xChordType}
           <!-- some chords do not have proper names and can only be identified 
