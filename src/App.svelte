@@ -126,9 +126,21 @@
       >
         {#if $currentPracticeSheetId}
           <div style:padding={spacing[5]} style:border-bottom="1px solid black">
-            <h1 style:margin="0px" style:display="inline-block">
-              {$currentPracticeSheet?.name}
-            </h1>
+            <input
+              id="titleInput"
+              style:border="none"
+              style:font-size={typography.fontSizes['3xl']}
+              style:font-weight="bold"
+              style:color="inherit"
+              value={$currentPracticeSheet?.name}
+              on:input={(event) => {
+                console.log('change?', event.target.value)
+                db.practice_sheets.update($currentPracticeSheetId, {
+                  ...$currentPracticeSheet,
+                  name: event.target.value,
+                })
+              }}
+            />
             <button
               id="newFretBoardButton"
               style:border="none"
@@ -201,5 +213,17 @@
   }
   #newFretBoardButton:hover {
     background-color: #ff8a8a;
+  }
+
+  #titleInput {
+    border: none;
+    background-color: transparent;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+  }
+
+  #titleInput:focus {
+    outline: none;
   }
 </style>
