@@ -14,6 +14,7 @@
   import { defaultFretMapBlockProps } from './lib/types'
   import { setContext } from 'svelte'
   import { readable, writable, type Readable } from 'svelte/store'
+  import Welcome from './Welcome.svelte'
 
   let currentPracticeSheetId = writable<string | null>(null)
   const allPracticeSheets = liveQuery(() =>
@@ -125,18 +126,19 @@
         style:flex-grow="1"
       >
         {#if $currentPracticeSheetId}
-          <div style:padding={spacing[5]} style:border-bottom="1px solid black">
+          <div style:padding={spacing[3]} style:border-bottom="1px solid black">
             <input
               id="titleInput"
-              style:border="none"
               style:font-size={typography.fontSizes['3xl']}
               style:font-weight="bold"
               style:color="inherit"
               value={$currentPracticeSheet?.name}
               on:input={(event) => {
+                //@ts-ignore
                 console.log('change?', event.target.value)
                 db.practice_sheets.update($currentPracticeSheetId, {
                   ...$currentPracticeSheet,
+                  //@ts-ignore
                   name: event.target.value,
                 })
               }}
@@ -160,7 +162,14 @@
             {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (index + $currentPracticeSheetId)}
               <FretMapBlock {...fretMapBlock} {index} />
             {/each}
+            {#if $currentPracticeSheet?.sheetContents.length === 0}
+              <div style:padding={spacing[10]}>
+                <p>No fretboards yet. Add one by pressing 'Add Fretboard'</p>
+              </div>
+            {/if}
           </div>
+        {:else}
+          <Welcome />
         {/if}
       </div>
     </div>
@@ -224,6 +233,6 @@
   }
 
   #titleInput:focus {
-    outline: none;
+    outline: 1px solid black;
   }
 </style>
