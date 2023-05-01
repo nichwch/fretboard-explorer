@@ -113,7 +113,11 @@
                   $currentPracticeSheetId = practiceSheet.id
                 }}
               >
-                {practiceSheet.name}
+                {#if practiceSheet.name.length > 0}
+                  {practiceSheet.name}
+                {:else}
+                  {'untitled'}
+                {/if}
               </button>
             {/each}
           {/if}
@@ -126,12 +130,22 @@
         style:flex-grow="1"
       >
         {#if $currentPracticeSheetId}
-          <div style:padding={spacing[3]} style:border-bottom="1px solid black">
+          <div
+            style:display="flex"
+            style:align-items="center"
+            style:padding={spacing[3]}
+            style:border-bottom="1px solid black"
+          >
             <input
+              placeholder="untitled"
+              spellcheck="false"
               id="titleInput"
               style:font-size={typography.fontSizes['3xl']}
               style:font-weight="bold"
+              style:flex-shrink="0"
               style:color="inherit"
+              style:display="inline"
+              style:min-width={sizes.md}
               value={$currentPracticeSheet?.name}
               on:input={(event) => {
                 //@ts-ignore
