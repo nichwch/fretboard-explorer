@@ -18,7 +18,7 @@ export class Database extends Dexie {
   constructor() {
     super('database')
     this.version(1).stores({
-      practice_sheets: '++id, name, age, creation_date', // Primary key and indexed props
+      practice_sheets: '++id, name, creation_date', // Primary key and indexed props
     })
   }
 }
