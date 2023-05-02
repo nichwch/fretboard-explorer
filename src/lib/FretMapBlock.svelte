@@ -10,7 +10,7 @@
   import FretMap from './FretMap.svelte'
   import { ScaleType, type NoteName, ChordType, Scale, Note } from 'tonal'
   import { borderRadius, colors, spacing } from '../utils/style-constants'
-  import { getContext, setContext } from 'svelte'
+  import { getContext, onMount, setContext } from 'svelte'
   import { flatOrSharp } from './flatOrSharpStore'
   import { fly } from 'svelte/transition'
   import { db, type PracticeSheet } from './db'
@@ -27,6 +27,12 @@
   export let chordType: string | null = 'major'
   export let scaleType: string | null = 'major'
   export let index: number
+
+  let thisBlock: HTMLDivElement
+
+  onMount(() => {
+    thisBlock.scrollIntoView({ behavior: 'smooth' })
+  })
 
   let currentPracticeSheetId: Writable<string | null> = getContext(
     'currentPracticeSheetId'
@@ -90,6 +96,7 @@
 </script>
 
 <div
+  bind:this={thisBlock}
   transition:fly={{ y: -200, duration: 300 }}
   style:border-bottom="1px solid black"
   style:margin-top={spacing[5]}
