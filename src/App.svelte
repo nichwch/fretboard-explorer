@@ -27,7 +27,11 @@
     return res
   })
 
+  let currentPracticeSheetStore = writable($currentPracticeSheet)
+  $: $currentPracticeSheetStore = $currentPracticeSheet
+
   setContext('currentPracticeSheetId', currentPracticeSheetId)
+  setContext('currentPracticeSheet', currentPracticeSheetStore)
 
   const createPracticeSheet = () => {
     const newId = nanoid()

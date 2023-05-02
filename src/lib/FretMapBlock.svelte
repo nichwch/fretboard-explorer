@@ -5,7 +5,7 @@
     type FretMapBlockProps,
     type Tuning,
   } from './types'
-  import { writable, type Writable } from 'svelte/store'
+  import { get, writable, type Writable } from 'svelte/store'
   import { FretMapForChord, FretMapForScale } from './guitar'
   import FretMap from './FretMap.svelte'
   import { ScaleType, type NoteName, ChordType, Scale, Note } from 'tonal'
@@ -14,7 +14,7 @@
   import { flatOrSharp } from './flatOrSharpStore'
   import { fly } from 'svelte/transition'
   import { db, type PracticeSheet } from './db'
-  import { liveQuery, type Observable } from 'dexie'
+  import type { Observable } from 'dexie'
 
   export let stringSpacing = 25
   export let fretSpacing = 50
@@ -28,24 +28,15 @@
   export let scaleType: string | null = 'major'
   export let index: number
 
-  let thisBlock: HTMLDivElement
-
-  onMount(() => {
-    thisBlock.scrollIntoView({ behavior: 'smooth' })
-  })
-
   let currentPracticeSheetId: Writable<string | null> = getContext(
     'currentPracticeSheetId'
   )
   $: {
     console.log('currentPracticeSheetId2', $currentPracticeSheetId)
   }
-
-  $: currentPracticeSheet = liveQuery(async () => {
-    const res = await db.practice_sheets.get($currentPracticeSheetId)
-    console.log('id2', $currentPracticeSheetId, res)
-    return res
-  })
+  let currentPracticeSheet: Observable<PracticeSheet> = getContext(
+    'currentPracticeSheet'
+  )
 
   let fretMap = FretMapForScale(tuning, frets, `${root} ${scaleType}`)
 
@@ -96,7 +87,6 @@
 </script>
 
 <div
-  bind:this={thisBlock}
   transition:fly={{ y: -200, duration: 300 }}
   style:border-bottom="1px solid black"
   style:margin-top={spacing[5]}
