@@ -12,7 +12,7 @@
   import { borderRadius, colors, spacing } from '../utils/style-constants'
   import { getContext, onMount, setContext } from 'svelte'
   import { flatOrSharp } from './flatOrSharpStore'
-  import { fly } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import { db, type PracticeSheet } from './db'
   import type { Observable } from 'dexie'
 
@@ -87,7 +87,7 @@
 </script>
 
 <div
-  transition:fly={{ y: -200, duration: 300 }}
+  transition:fade
   style:border-bottom="1px solid black"
   style:margin-top={spacing[5]}
   style:width="100%"
