@@ -16,7 +16,7 @@
   })
 
   let currentPracticeSheetStore = writable($currentPracticeSheet)
-  $: $currentPracticeSheetStore = $currentPracticeSheet
+  $: currentPracticeSheetStore.set($currentPracticeSheet)
 
   setContext('currentPracticeSheetId', currentPracticeSheetId)
   setContext('currentPracticeSheet', currentPracticeSheetStore)
