@@ -27,6 +27,7 @@
   export let chordType: string | null = 'major'
   export let scaleType: string | null = 'major'
   export let index: number
+  export let id: string
 
   let currentPracticeSheetId: Writable<string | null> = getContext(
     'currentPracticeSheetId'
@@ -85,6 +86,16 @@
       })
     }
   }
+
+  const deleteFretBoard = async () => {
+    const newSheetContents = $currentPracticeSheet.sheetContents.filter(
+      (block) => block.id !== id
+    )
+    db.practice_sheets.update($currentPracticeSheetId, {
+      ...$currentPracticeSheet,
+      sheetContents: newSheetContents,
+    })
+  }
 </script>
 
 <div
@@ -138,6 +149,7 @@
         {/each}
       </select>
     {/if}
+    <button on:click={deleteFretBoard}>delete </button>
   </div>
   <div style:overflow-x="auto">
     <FretMap {fretMap} {root} {tuning} />

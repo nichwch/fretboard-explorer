@@ -27,7 +27,7 @@
   })
 
   const createFretBoard = async () => {
-    await db.practice_sheets.update($currentPracticeSheetId, {
+    db.practice_sheets.update($currentPracticeSheetId, {
       ...$currentPracticeSheet,
       sheetContents: [
         ...$currentPracticeSheet.sheetContents,
@@ -37,9 +37,14 @@
         } as FretMapBlockProps,
       ],
     })
-    await tick()
-    console.log('LAST BLOCK', lastBlock)
-    lastBlock.scrollIntoView({ behavior: 'smooth' })
+    // await tick()
+    // console.log('LAST BLOCK', lastBlock)
+    // lastBlock.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const deletePracticeSheet = () => {
+    db.practice_sheets.delete($currentPracticeSheetId)
+    currentPracticeSheetId.set(null)
   }
 </script>
 
@@ -72,7 +77,7 @@
       }}
     />
     <button
-      id="newFretBoardButton"
+      class="newFretBoardButton"
       style:border="none"
       style:font-size={typography.fontSizes['lg']}
       style:padding={spacing[3]}
@@ -83,6 +88,19 @@
       on:click={createFretBoard}
     >
       add fretboard
+    </button>
+    <button
+      class="newFretBoardButton"
+      style:border="none"
+      style:font-size={typography.fontSizes['lg']}
+      style:padding={spacing[3]}
+      style:margin={spacing[3]}
+      style:border-radius={borderRadius.lg}
+      style:color={colors.red[700]}
+      style:font-weight="bold"
+      on:click={deletePracticeSheet}
+    >
+      delete practice sheet
     </button>
   </div>
 
@@ -106,11 +124,11 @@
 {/if}
 
 <style>
-  #newFretBoardButton {
+  .newFretBoardButton {
     background-color: #ffb8b8;
     transition: background-color 0.3s;
   }
-  #newFretBoardButton:hover {
+  .newFretBoardButton:hover {
     background-color: #ff8a8a;
   }
 
