@@ -105,18 +105,17 @@
   </div>
 
   <div style:overflow-y="auto">
-    {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (fretMapBlock.id)}
-      <!-- bind last element to lastBlock -->
-      {#if index === $currentPracticeSheet?.sheetContents.length - 1}
-        <FretMapBlock {...fretMapBlock} {index} bind:this={lastBlock} />
-      {:else}
-        <FretMapBlock {...fretMapBlock} {index} />
-      {/if}
-    {/each}
     {#if $currentPracticeSheet?.sheetContents.length === 0}
       <div style:padding={spacing[10]}>
         <p>No fretboards yet. Add one by pressing 'Add Fretboard'</p>
       </div>
+    {:else if $currentPracticeSheet?.sheetContents === undefined}
+      <div />
+    {:else}
+      {#each $currentPracticeSheet?.sheetContents as fretMapBlock, index (fretMapBlock.id)}
+        <!-- bind last element to lastBlock -->
+        <FretMapBlock {...fretMapBlock} {index} />
+      {/each}
     {/if}
   </div>
 {:else}
