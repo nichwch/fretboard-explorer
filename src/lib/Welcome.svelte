@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { spacing } from './utils/style-constants'
+  import { spacing } from '../utils/style-constants'
 </script>
 
 <div style:padding={spacing[10]}>

@@ -1,25 +1,13 @@
 <script lang="ts">
-  import {
-    borderRadius,
-    colors,
-    sizes,
-    spacing,
-    typography,
-  } from './utils/style-constants'
-  import FretMapBlock from './lib/FretMapBlock.svelte'
-  import { db, type PracticeSheet } from './lib/db'
+  import { colors, sizes, spacing } from './utils/style-constants'
+  import { db } from './lib/db'
   import { liveQuery } from 'dexie'
-  import { nanoid } from 'nanoid'
-  import { fly } from 'svelte/transition'
-  import { defaultFretMapBlockProps } from './lib/types'
   import { setContext } from 'svelte'
-  import { readable, writable, type Readable } from 'svelte/store'
-  import Welcome from './Welcome.svelte'
+  import { writable } from 'svelte/store'
+  import PracticeSheetSidebar from './lib/PracticeSheetSidebar.svelte'
+  import MainContent from './lib/MainContent.svelte'
 
   let currentPracticeSheetId = writable<string | null>(null)
-  const allPracticeSheets = liveQuery(() =>
-    db.practice_sheets.orderBy('creation_date').reverse().toArray()
-  )
 
   $: currentPracticeSheet = liveQuery(async () => {
     const res = await db.practice_sheets.get($currentPracticeSheetId)
@@ -32,32 +20,6 @@
 
   setContext('currentPracticeSheetId', currentPracticeSheetId)
   setContext('currentPracticeSheet', currentPracticeSheetStore)
-
-  const createPracticeSheet = () => {
-    const newId = nanoid()
-    db.practice_sheets.add({
-      name: 'new practice sheet',
-      id: newId,
-      sheetContents: [],
-      creation_date: new Date(),
-    })
-  }
-
-  const createFretBoard = () => {
-    db.practice_sheets.update($currentPracticeSheetId, {
-      ...$currentPracticeSheet,
-      sheetContents: [
-        ...$currentPracticeSheet.sheetContents,
-        defaultFretMapBlockProps,
-      ],
-    })
-  }
-
-  $: console.log(
-    $allPracticeSheets,
-    $currentPracticeSheetId,
-    $currentPracticeSheet
-  )
 </script>
 
 <main style:height="100%">
@@ -79,53 +41,7 @@
         style:flex-shrink="0"
       >
         <!-- sidebar -->
-        <div
-          style:overflow-y="auto"
-          style:height="100%"
-          style:padding={spacing[3]}
-          style:box-sizing="border-box"
-          style:flex-grow="0"
-          style:flex-shrink="0"
-        >
-          <button
-            id="newPracticeSheetButton"
-            style:border="none"
-            style:width="100%"
-            style:font-size={typography.fontSizes['lg']}
-            style:padding={spacing[3]}
-            style:border-radius={borderRadius.lg}
-            style:color={colors.blue[700]}
-            style:font-weight="bold"
-            on:click={createPracticeSheet}
-          >
-            new practice sheet
-          </button>
-          {#if allPracticeSheets}
-            {#each $allPracticeSheets || [] as practiceSheet (practiceSheet.id)}
-              <button
-                class:selected={$currentPracticeSheetId === practiceSheet.id}
-                class="practiceSheetButton"
-                transition:fly={{ y: 50, duration: 400 }}
-                style:box-sizing="border-box"
-                style:width="100%"
-                style:font-size={typography.fontSizes['md']}
-                style:padding={spacing[3]}
-                style:margin-top={spacing[3]}
-                style:border-radius={borderRadius.lg}
-                on:click={() => {
-                  console.log('CLICKED', practiceSheet.id)
-                  $currentPracticeSheetId = practiceSheet.id
-                }}
-              >
-                {#if practiceSheet.name.length > 0}
-                  {practiceSheet.name}
-                {:else}
-                  {'untitled'}
-                {/if}
-              </button>
-            {/each}
-          {/if}
-        </div>
+        <PracticeSheetSidebar />
       </div>
       <div
         style:display="flex"
@@ -133,62 +49,7 @@
         style:height="100%"
         style:flex-grow="1"
       >
-        {#if $currentPracticeSheetId}
-          <div
-            style:display="flex"
-            style:align-items="center"
-            style:padding={spacing[3]}
-            style:border-bottom="1px solid black"
-          >
-            <input
-              placeholder="untitled"
-              spellcheck="false"
-              id="titleInput"
-              style:font-size={typography.fontSizes['3xl']}
-              style:font-weight="bold"
-              style:flex-shrink="0"
-              style:color="inherit"
-              style:display="inline"
-              style:min-width={sizes.md}
-              value={$currentPracticeSheet?.name}
-              on:input={(event) => {
-                //@ts-ignore
-                console.log('change?', event.target.value)
-                db.practice_sheets.update($currentPracticeSheetId, {
-                  ...$currentPracticeSheet,
-                  //@ts-ignore
-                  name: event.target.value,
-                })
-              }}
-            />
-            <button
-              id="newFretBoardButton"
-              style:border="none"
-              style:font-size={typography.fontSizes['lg']}
-              style:padding={spacing[3]}
-              style:margin={spacing[3]}
-              style:border-radius={borderRadius.lg}
-              style:color={colors.red[700]}
-              style:font-weight="bold"
-              on:click={createFretBoard}
-            >
-              add fretboard
-            </button>
-          </div>
-
-          <div style:overflow-y="auto">
-            {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (index + $currentPracticeSheetId)}
-              <FretMapBlock {...fretMapBlock} {index} />
-            {/each}
-            {#if $currentPracticeSheet?.sheetContents.length === 0}
-              <div style:padding={spacing[10]}>
-                <p>No fretboards yet. Add one by pressing 'Add Fretboard'</p>
-              </div>
-            {/if}
-          </div>
-        {:else}
-          <Welcome />
-        {/if}
+        <MainContent />
       </div>
     </div>
   </div>
@@ -210,47 +71,5 @@
     flex-grow: 1;
     /* stupidest css hack ever but neccessary for scrolling to work here */
     height: 1px;
-  }
-
-  #newPracticeSheetButton {
-    background-color: #90cdf4;
-    transition: background-color 0.3s;
-  }
-  #newPracticeSheetButton:hover {
-    background-color: #63b3ed;
-  }
-
-  .practiceSheetButton {
-    background-color: transparent;
-    border: none;
-    transition: background-color 0.3s;
-  }
-
-  .practiceSheetButton:hover {
-    background-color: #bee3f8;
-  }
-
-  .practiceSheetButton.selected {
-    background-color: #bee3f8;
-  }
-
-  #newFretBoardButton {
-    background-color: #ffb8b8;
-    transition: background-color 0.3s;
-  }
-  #newFretBoardButton:hover {
-    background-color: #ff8a8a;
-  }
-
-  #titleInput {
-    border: none;
-    background-color: transparent;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-left: 1rem;
-  }
-
-  #titleInput:focus {
-    outline: 1px solid black;
   }
 </style>

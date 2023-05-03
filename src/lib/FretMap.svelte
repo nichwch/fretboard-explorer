@@ -24,7 +24,7 @@
 <svg width="800px" height="200px" style:padding-left={spacing[5]}>
   <g transform="translate(50, 25)">
     <!-- fretboard inlays -->
-    {#each fretInlaysThatFit as fretInlayLocation}
+    {#each fretInlaysThatFit as fretInlayLocation, index (index)}
       {#if fretInlayLocation === 11}
         <!-- twelfth fret inlay -->
         <polygon
