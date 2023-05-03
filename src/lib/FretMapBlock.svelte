@@ -66,17 +66,18 @@
   }
 
   const updateSheets = () => {
-    let newBlock = {
-      ...defaultFretMapBlockProps,
-      frets,
-      tuning,
-      root,
-      mode,
-      chordType,
-      scaleType,
-    }
     if ($currentPracticeSheet) {
       let newSheet = [...$currentPracticeSheet?.sheetContents]
+      let newBlock = {
+        ...defaultFretMapBlockProps,
+        ...newSheet[index],
+        frets,
+        tuning,
+        root,
+        mode,
+        chordType,
+        scaleType,
+      }
       newSheet[index] = newBlock
       console.log('new sheet update', newSheet)
       db.practice_sheets.update($currentPracticeSheetId, {

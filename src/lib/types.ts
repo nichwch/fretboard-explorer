@@ -25,9 +25,10 @@ export type FretMapBlockProps = {
   mode: 'scale' | 'chord'
   chordType: string | null
   scaleType: string | null
+  id: string
 }
 
-export const defaultFretMapBlockProps: FretMapBlockProps = {
+export const defaultFretMapBlockProps: Partial<FretMapBlockProps> = {
   stringSpacing: 20,
   fretSpacing: 50,
   frets: GUITAR_STANDARD_FRETS,

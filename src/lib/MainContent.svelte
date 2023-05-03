@@ -10,9 +10,10 @@
   import type { Writable } from 'svelte/store'
   import { liveQuery } from 'dexie'
   import { db } from './db'
-  import { defaultFretMapBlockProps } from './types'
+  import { defaultFretMapBlockProps, type FretMapBlockProps } from './types'
   import FretMapBlock from './FretMapBlock.svelte'
   import Welcome from './Welcome.svelte'
+  import { nanoid } from 'nanoid'
 
   let lastBlock
   const currentPracticeSheetId: Writable<string> = getContext(
@@ -30,7 +31,10 @@
       ...$currentPracticeSheet,
       sheetContents: [
         ...$currentPracticeSheet.sheetContents,
-        defaultFretMapBlockProps,
+        {
+          id: nanoid(),
+          ...defaultFretMapBlockProps,
+        } as FretMapBlockProps,
       ],
     })
     await tick()
@@ -83,7 +87,7 @@
   </div>
 
   <div style:overflow-y="auto">
-    {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (index)}
+    {#each $currentPracticeSheet?.sheetContents || [] as fretMapBlock, index (fretMapBlock.id)}
       <!-- bind last element to lastBlock -->
       {#if index === $currentPracticeSheet?.sheetContents.length - 1}
         <FretMapBlock {...fretMapBlock} {index} bind:this={lastBlock} />
