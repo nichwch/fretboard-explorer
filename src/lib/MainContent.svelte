@@ -14,11 +14,21 @@
   import FretMapBlock from './FretMapBlock.svelte'
   import Welcome from './Welcome.svelte'
   import { nanoid } from 'nanoid'
+  import { afterUpdate } from 'svelte'
 
-  let lastBlock
+  let scrollContainer
+  let newestBlockId = null
   const currentPracticeSheetId: Writable<string> = getContext(
     'currentPracticeSheetId'
   )
+
+  //   scroll to top whenever the page changes
+  $: {
+    if (scrollContainer) {
+      $currentPracticeSheetId
+      scrollContainer.scroll({ top: 0 })
+    }
+  }
 
   $: currentPracticeSheet = liveQuery(async () => {
     const res = await db.practice_sheets.get($currentPracticeSheetId)
@@ -27,20 +37,27 @@
   })
 
   const createFretBoard = async () => {
+    const newId = nanoid()
     db.practice_sheets.update($currentPracticeSheetId, {
       ...$currentPracticeSheet,
       sheetContents: [
         ...$currentPracticeSheet.sheetContents,
         {
-          id: nanoid(),
+          id: newId,
           ...defaultFretMapBlockProps,
         } as FretMapBlockProps,
       ],
     })
-    // await tick()
-    // console.log('LAST BLOCK', lastBlock)
-    // lastBlock.scrollIntoView({ behavior: 'smooth' })
+    newestBlockId = newId
   }
+
+  afterUpdate(() => {
+    const newBlock = document.getElementById(newestBlockId)
+    if (newBlock && newestBlockId !== null) {
+      newBlock.scrollIntoView({ behavior: 'smooth' })
+      newestBlockId = null
+    }
+  })
 
   const deletePracticeSheet = () => {
     db.practice_sheets.delete($currentPracticeSheetId)
@@ -104,7 +121,7 @@
     </button>
   </div>
 
-  <div style:overflow-y="auto">
+  <div style:overflow-y="auto" bind:this={scrollContainer}>
     {#if $currentPracticeSheet?.sheetContents.length === 0}
       <div style:padding={spacing[10]}>
         <p>No fretboards yet. Add one by pressing 'Add Fretboard'</p>

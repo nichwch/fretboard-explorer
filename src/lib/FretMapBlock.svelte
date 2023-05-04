@@ -99,6 +99,7 @@
 </script>
 
 <div
+  {id}
   transition:fade
   style:border-bottom="1px solid black"
   style:margin-top={spacing[5]}
