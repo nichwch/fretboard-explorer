@@ -13,6 +13,7 @@
   export let fretMap: FretMap
   export let tuning: Tuning
   export let root: string
+  export let isOverlay: boolean
 
   const stringSpacing: number = getContext('stringSpacing')
   const fretSpacing: number = getContext('fretSpacing')
@@ -32,6 +33,24 @@
       currentPitchClass = note.name
     }
   }
+
+  let mainColor = colors.green[100]
+
+  $: {
+    if (isRoot) {
+      if (isOverlay) {
+        mainColor = colors.red[500]
+      } else {
+        mainColor = colors.gray[900]
+      }
+    } else {
+      if (isOverlay) {
+        mainColor = colors.red[100]
+      } else {
+        mainColor = colors.green[100]
+      }
+    }
+  }
 </script>
 
 <!-- hover target -->
@@ -42,7 +61,7 @@
     cx={fretSpacing * fretIndex - fretSpacing / 2}
     cy={stringIndex * stringSpacing}
     r="10"
-    fill={isRoot ? 'black' : colors.green[100]}
+    fill={mainColor}
     stroke="black"
     stroke-dasharray={$fretMapHoveredNote === currentPitchClass && !isRoot
       ? '4,4'

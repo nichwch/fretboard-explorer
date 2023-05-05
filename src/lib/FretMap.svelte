@@ -10,6 +10,8 @@
   import { colors, spacing } from '../utils/style-constants'
 
   export let fretMap: FretMap
+  export let overlayFretMap: FretMap | null
+  export let overlayRoot: string | null
   export let frets: number = GUITAR_STANDARD_FRETS
   export let tuning: Tuning = GUITAR_STANDARD_TUNING
   export let root: string
@@ -92,7 +94,24 @@
         {/if}
 
         <!-- finger -->
-        <NoteCircle {stringIndex} {fretIndex} {fretMap} {tuning} {root} />
+        <NoteCircle
+          {stringIndex}
+          {fretIndex}
+          {fretMap}
+          {tuning}
+          {root}
+          isOverlay={false}
+        />
+        {#if overlayFretMap !== null}
+          <NoteCircle
+            {stringIndex}
+            {fretIndex}
+            fretMap={overlayFretMap}
+            {tuning}
+            root={overlayRoot}
+            isOverlay={true}
+          />
+        {/if}
       {/each}
       <!-- the fret -->
       <line

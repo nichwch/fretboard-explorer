@@ -26,6 +26,12 @@
   export let mode: 'scale' | 'chord' = 'scale'
   export let chordType: string | null = 'major'
   export let scaleType: string | null = 'major'
+
+  export let overlayRoot: NoteName | null = 'G'
+  export let overlayMode: 'scale' | 'chord' = 'scale'
+  export let overlayChordType: string | null = 'major'
+  export let overlayScaleType: string | null = 'major'
+
   export let index: number
   export let id: string
 
@@ -40,6 +46,8 @@
   )
 
   let fretMap = FretMapForScale(tuning, frets, `${root} ${scaleType}`)
+
+  let overlayFretMap
 
   let allScales = ScaleType.all()
   let allChords = ChordType.all()
@@ -65,6 +73,16 @@
     } else if (mode === 'chord') {
       let chordName = `${root} ${chordType}`
       fretMap = FretMapForChord(tuning, frets, chordName)
+    }
+  }
+
+  $: {
+    if (overlayMode === 'scale') {
+      let overlayScaleName = `${overlayRoot} ${overlayScaleType}`
+      overlayFretMap = FretMapForScale(tuning, frets, overlayScaleName)
+    } else if (overlayMode === 'chord') {
+      let overlayChordName = `${overlayRoot} ${overlayChordType}`
+      overlayFretMap = FretMapForChord(tuning, frets, overlayChordName)
     }
   }
 
@@ -151,9 +169,57 @@
       </select>
     {/if}
     <button on:click={deleteFretBoard}>delete </button>
+    <!-- TODO: change this to be "if overlay" -->
+    {#if true}
+      <div style:padding={spacing[5]}>
+        <select
+          bind:value={overlayMode}
+          style:background-color={colors.red[100]}
+          on:change={updateSheets}
+        >
+          <option value="chord"> Chord </option>
+          <option value="scale"> Scale </option>
+        </select>
+        <select
+          bind:value={overlayRoot}
+          style:background-color={colors.blue[100]}
+          on:change={updateSheets}
+        >
+          {#each allRoots as root}
+            <option value={root}>{root}</option>
+          {/each}
+        </select>
+        {#if mode === 'scale'}
+          <select
+            bind:value={overlayScaleType}
+            style:background-color={colors.yellow[100]}
+            on:change={updateSheets}
+          >
+            {#each allScales as { name }}
+              <option value={name}>{name}</option>
+            {/each}
+          </select>
+        {:else if mode === 'chord'}
+          <select
+            bind:value={overlayChordType}
+            style:background-color={colors.yellow[100]}
+            on:change={updateSheets}
+          >
+            {#each allChords as xChordType}
+              <!-- some chords do not have proper names and can only be identified 
+          by their aliases
+          -->
+              <option value={xChordType.name || xChordType?.aliases?.[0]}
+                >{xChordType.name || xChordType?.aliases?.[0]}</option
+              >
+            {/each}
+          </select>
+        {/if}
+      </div>
+    {/if}
   </div>
   <div style:overflow-x="auto">
-    <FretMap {fretMap} {root} {tuning} />
+    <FretMap {fretMap} {root} {tuning} {overlayFretMap} {overlayRoot} />
   </div>
 </div>
 
