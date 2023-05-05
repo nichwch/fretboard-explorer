@@ -56,6 +56,8 @@
   setContext('stringSpacing', stringSpacing)
   setContext('fretSpacing', fretSpacing)
 
+  $: sheetContents = $currentPracticeSheet?.sheetContents
+
   $: {
     if (mode === 'scale') {
       let scaleName = `${root} ${scaleType}`
@@ -68,7 +70,7 @@
 
   const updateSheets = () => {
     if ($currentPracticeSheet) {
-      let newSheet = [...$currentPracticeSheet?.sheetContents]
+      let newSheet = [...sheetContents]
       let newBlock = {
         ...defaultFretMapBlockProps,
         ...newSheet[index],
@@ -88,9 +90,7 @@
   }
 
   const deleteFretBoard = async () => {
-    const newSheetContents = $currentPracticeSheet.sheetContents.filter(
-      (block) => block.id !== id
-    )
+    const newSheetContents = sheetContents.filter((block) => block.id !== id)
     db.practice_sheets.update($currentPracticeSheetId, {
       ...$currentPracticeSheet,
       sheetContents: newSheetContents,

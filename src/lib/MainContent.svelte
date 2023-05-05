@@ -22,26 +22,21 @@
     'currentPracticeSheetId'
   )
 
-  //   scroll to top whenever the page changes
-  $: {
-    if (scrollContainer) {
-      $currentPracticeSheetId
-      scrollContainer.scroll({ top: 0 })
-    }
-  }
-
   $: currentPracticeSheet = liveQuery(async () => {
     const res = await db.practice_sheets.get($currentPracticeSheetId)
     console.log('query id', $currentPracticeSheetId, res)
     return res
   })
 
+  $: sheetContents = $currentPracticeSheet?.sheetContents
+  $: sheetName = $currentPracticeSheet?.name
+
   const createFretBoard = async () => {
     const newId = nanoid()
     db.practice_sheets.update($currentPracticeSheetId, {
       ...$currentPracticeSheet,
       sheetContents: [
-        ...$currentPracticeSheet.sheetContents,
+        ...sheetContents,
         {
           id: newId,
           ...defaultFretMapBlockProps,
@@ -81,8 +76,8 @@
       style:flex-shrink="0"
       style:color="inherit"
       style:display="inline"
-      style:min-width={sizes.md}
-      value={$currentPracticeSheet?.name}
+      style:min-width={sizes.xs}
+      value={sheetName}
       on:input={(event) => {
         //@ts-ignore
         console.log('change?', event.target.value)
@@ -100,14 +95,14 @@
       style:padding={spacing[3]}
       style:margin={spacing[3]}
       style:border-radius={borderRadius.lg}
-      style:color={colors.red[700]}
+      style:color={colors.blue[700]}
       style:font-weight="bold"
       on:click={createFretBoard}
     >
       add fretboard
     </button>
     <button
-      class="newFretBoardButton"
+      class="deletePracticeSheetButton"
       style:border="none"
       style:font-size={typography.fontSizes['lg']}
       style:padding={spacing[3]}
@@ -122,14 +117,14 @@
   </div>
 
   <div style:overflow-y="auto" bind:this={scrollContainer}>
-    {#if $currentPracticeSheet?.sheetContents.length === 0}
+    {#if sheetContents?.length === 0}
       <div style:padding={spacing[10]}>
         <p>No fretboards yet. Add one by pressing 'Add Fretboard'</p>
       </div>
-    {:else if $currentPracticeSheet?.sheetContents === undefined}
+    {:else if sheetContents === undefined}
       <div />
     {:else}
-      {#each $currentPracticeSheet?.sheetContents as fretMapBlock, index (fretMapBlock.id)}
+      {#each sheetContents as fretMapBlock, index (fretMapBlock.id)}
         <!-- bind last element to lastBlock -->
         <FretMapBlock {...fretMapBlock} {index} />
       {/each}
@@ -141,11 +136,19 @@
 
 <style>
   .newFretBoardButton {
-    background-color: #ffb8b8;
+    background-color: #90cdf4;
     transition: background-color 0.3s;
   }
   .newFretBoardButton:hover {
+    background-color: #63b3ed;
+  }
+
+  .deletePracticeSheetButton {
     background-color: #ff8a8a;
+    transition: background-color 0.3s;
+  }
+  .deletePracticeSheetButton:hover {
+    background-color: #ff5c5c;
   }
 
   #titleInput {
