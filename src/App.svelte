@@ -6,6 +6,7 @@
   import { writable } from 'svelte/store'
   import PracticeSheetSidebar from './lib/PracticeSheetSidebar.svelte'
   import MainContent from './lib/MainContent.svelte'
+  import Metronome from './lib/Metronome.svelte'
 
   let currentPracticeSheetId = writable<string | null>(null)
 
@@ -29,8 +30,10 @@
       style:padding={spacing[3]}
       style:background-color={colors.green[300]}
       style:border-bottom={`1px solid black`}
+      style:align-items="center"
     >
       <span style:font-weight="bold">guitar tools</span>
+      <Metronome />
     </div>
     <div id="beneathNav">
       <!-- main -->
