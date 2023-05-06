@@ -107,13 +107,15 @@
     {/each}
     {#each tuning as openString, stringIndex}
       {#each fretMap[stringIndex] as fretIndex}
-        <FrettedNoteCircle
-          {stringIndex}
-          {fretIndex}
-          {root}
-          {tuning}
-          color={colors.green[100]}
-        />
+        {#key fretIndex}
+          <FrettedNoteCircle
+            {stringIndex}
+            {fretIndex}
+            {root}
+            {tuning}
+            color={colors.green[100]}
+          />
+        {/key}
       {/each}
     {/each}
   </g>
