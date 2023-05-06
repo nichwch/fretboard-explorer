@@ -8,6 +8,7 @@
   } from './constants'
   import type { FretMap, Phrase, Tuning } from './types'
   import { colors, spacing } from '../utils/style-constants'
+  import FrettedNoteCircle from './FrettedNoteCircle.svelte'
 
   export let fretMap: FretMap
   export let overlayFretMap: FretMap | null
@@ -92,26 +93,6 @@
             stroke="#000"
           />
         {/if}
-
-        <!-- finger -->
-        <NoteCircle
-          {stringIndex}
-          {fretIndex}
-          {fretMap}
-          {tuning}
-          {root}
-          isOverlay={false}
-        />
-        {#if overlayFretMap !== null}
-          <NoteCircle
-            {stringIndex}
-            {fretIndex}
-            fretMap={overlayFretMap}
-            {tuning}
-            root={overlayRoot}
-            isOverlay={true}
-          />
-        {/if}
       {/each}
       <!-- the fret -->
       <line
@@ -123,6 +104,17 @@
         stroke="#000"
         stroke-width="2px"
       />
+    {/each}
+    {#each tuning as openString, stringIndex}
+      {#each fretMap[stringIndex] as fretIndex}
+        <FrettedNoteCircle
+          {stringIndex}
+          {fretIndex}
+          {root}
+          {tuning}
+          color={colors.green[100]}
+        />
+      {/each}
     {/each}
   </g>
 </svg>

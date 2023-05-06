@@ -87,7 +87,7 @@
     cx={fretSpacing * fretIndex - fretSpacing / 2}
     cy={stringIndex * stringSpacing}
     r="10"
-    fill={colors.green[100]}
+    fill="white"
   />
   <text
     transition:fade|local={{ duration: 200 }}
