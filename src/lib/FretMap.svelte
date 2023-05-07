@@ -9,6 +9,7 @@
   import type { FretMap, Phrase, Tuning } from './types'
   import { colors, spacing } from '../utils/style-constants'
   import FrettedNoteCircle from './FrettedNoteCircle.svelte'
+  import RegularNoteCircle from './RegularNoteCircle.svelte'
 
   export let fretMap: FretMap
   export let overlayFretMap: FretMap | null
@@ -106,6 +107,13 @@
       />
     {/each}
     {#each tuning as openString, stringIndex}
+      {#each fretArray as fretIndex}
+        {#key fretIndex}
+          <RegularNoteCircle {stringIndex} {fretIndex} {tuning} />
+        {/key}
+      {/each}
+    {/each}
+    {#each tuning as openString, stringIndex}
       {#each fretMap[stringIndex] as fretIndex}
         {#key fretIndex}
           <FrettedNoteCircle
@@ -114,6 +122,21 @@
             {root}
             {tuning}
             color={colors.green[100]}
+            darkColor={colors.green[500]}
+          />
+        {/key}
+      {/each}
+      {#each overlayFretMap[stringIndex] as fretIndex}
+        {#key fretIndex}
+          <FrettedNoteCircle
+            {stringIndex}
+            {fretIndex}
+            root={overlayRoot}
+            {tuning}
+            color={colors.gray[100]}
+            darkColor={colors.gray[500]}
+            opacity={0.7}
+            radius={12}
           />
         {/key}
       {/each}

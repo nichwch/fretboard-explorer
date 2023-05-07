@@ -10,60 +10,51 @@
 
   export let stringIndex: number
   export let fretIndex: number
-  export let root: string
   export let tuning: Tuning
-  export let color: string
-  export let darkColor: string
-  export let opacity: number = 1
-  export let radius: number = 10
 
   const stringSpacing: number = getContext('stringSpacing')
   const fretSpacing: number = getContext('fretSpacing')
 
   let fretMapHoveredNote: Writable<NoteName | null> =
     getContext('fretMapHoveredNote')
-
-  $: currentPitchClass = pcByStringAndFret(tuning, stringIndex, fretIndex)
-
-  $: isRoot = currentPitchClass === root
+  let currentPitchClass = pcByStringAndFret(tuning, stringIndex, fretIndex)
   // make them all match the accidentals the user has selected
   $: {
-    let note = Note.get(currentPitchClass)
+    let note = Note.get(pcByStringAndFret(tuning, stringIndex, fretIndex))
     if ($flatOrSharp !== note.acc) {
       currentPitchClass = Note.enharmonic(note.name)
     } else {
       currentPitchClass = note.name
     }
   }
+
+  let mainColor = colors.green[100]
 </script>
 
 <!-- hover target -->
 
-<circle
-  transition:fly|local={{ y: -20, duration: 300 }}
-  cx={fretSpacing * fretIndex - fretSpacing / 2}
-  cy={stringIndex * stringSpacing}
-  r={radius}
-  fill={isRoot ? darkColor : color}
-  {opacity}
-  stroke="black"
-  stroke-dasharray={$fretMapHoveredNote === currentPitchClass && !isRoot
-    ? '4,4'
-    : '0'}
-/>
-<text
-  transition:fly|local={{ y: -20, duration: 300 }}
-  data-v-6d8a98b6=""
-  font-size="11"
-  x={fretSpacing * fretIndex - fretSpacing / 2}
-  y={stringIndex * stringSpacing}
-  dominant-baseline="central"
-  fill={isRoot ? 'white' : 'black'}
-  font-weight="normal"
-  text-anchor="middle"
->
-  {currentPitchClass}
-</text>
+{#if $fretMapHoveredNote === currentPitchClass}
+  <!-- show this only on hover -->
+  <circle
+    transition:fade|local={{ duration: 200 }}
+    cx={fretSpacing * fretIndex - fretSpacing / 2}
+    cy={stringIndex * stringSpacing}
+    r="10"
+    fill="white"
+  />
+  <text
+    transition:fade|local={{ duration: 200 }}
+    data-v-6d8a98b6=""
+    font-size="11"
+    x={fretSpacing * fretIndex - fretSpacing / 2}
+    y={stringIndex * stringSpacing}
+    dominant-baseline="central"
+    font-weight="normal"
+    text-anchor="middle"
+  >
+    {currentPitchClass}
+  </text>
+{/if}
 <circle
   cx={fretSpacing * fretIndex - fretSpacing / 2}
   cy={stringIndex * stringSpacing}
