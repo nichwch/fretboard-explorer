@@ -98,6 +98,10 @@
         mode,
         chordType,
         scaleType,
+        overlayRoot,
+        overlayMode,
+        overlayChordType,
+        overlayScaleType,
       }
       newSheet[index] = newBlock
       console.log('new sheet update', newSheet)
@@ -189,7 +193,7 @@
             <option value={root}>{root}</option>
           {/each}
         </select>
-        {#if mode === 'scale'}
+        {#if overlayMode === 'scale'}
           <select
             bind:value={overlayScaleType}
             style:background-color={colors.yellow[100]}
@@ -199,7 +203,7 @@
               <option value={name}>{name}</option>
             {/each}
           </select>
-        {:else if mode === 'chord'}
+        {:else if overlayMode === 'chord'}
           <select
             bind:value={overlayChordType}
             style:background-color={colors.yellow[100]}

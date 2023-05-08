@@ -133,9 +133,9 @@
             {fretIndex}
             root={overlayRoot}
             {tuning}
-            color={colors.gray[100]}
-            darkColor={colors.gray[500]}
-            opacity={0.7}
+            color={'transparent'}
+            darkColor={'transparent'}
+            opacity={1}
             radius={12}
           />
         {/key}
