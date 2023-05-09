@@ -51,13 +51,33 @@
 
   let allScales = ScaleType.all()
   let allChords = ChordType.all()
-  let allRoots = Scale.get('A chromatic').notes.map((note) => {
+  $: allRoots = Scale.get('A chromatic').notes.map((note) => {
+    console.log('NOTE', note, Note.get(note).acc, $flatOrSharp)
     if ($flatOrSharp !== Note.get(note).acc) {
+      console.log('corrected', Note.enharmonic(note))
       return Note.enharmonic(note)
     } else {
       return note
     }
   })
+
+  $: {
+    let note = Note.get(root)
+    if ($flatOrSharp !== note.acc) {
+      root = Note.enharmonic(note.name)
+    } else {
+      root = note.name
+    }
+  }
+
+  $: {
+    let note = Note.get(overlayRoot)
+    if ($flatOrSharp !== note.acc) {
+      overlayRoot = Note.enharmonic(note.name)
+    } else {
+      overlayRoot = note.name
+    }
+  }
 
   let fretMapHoveredNote = writable<NoteName | null>(null)
   setContext('fretMapHoveredNote', fretMapHoveredNote)

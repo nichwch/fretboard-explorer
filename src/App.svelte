@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { colors, sizes, spacing } from './utils/style-constants'
+  import { borderRadius, colors, sizes, spacing } from './utils/style-constants'
   import { db } from './lib/db'
   import { liveQuery } from 'dexie'
   import { setContext } from 'svelte'
@@ -7,6 +7,7 @@
   import PracticeSheetSidebar from './lib/PracticeSheetSidebar.svelte'
   import MainContent from './lib/MainContent.svelte'
   import Metronome from './lib/Metronome.svelte'
+  import { flatOrSharp } from './lib/flatOrSharpStore'
 
   let currentPracticeSheetId = writable<string | null>(null)
 
@@ -30,10 +31,48 @@
       style:padding={spacing[3]}
       style:background-color={colors.green[300]}
       style:border-bottom={`1px solid black`}
+      style:display="flex"
       style:align-items="center"
     >
       <span style:font-weight="bold">guitar tools</span>
-      <Metronome />
+      <div
+        style:margin-left="auto"
+        style:display="flex"
+        style:align-items="center"
+      >
+        <span style:margin-right={spacing[3]} style:display="flex">
+          <button
+            style:border={`2px solid ${colors.green[600]}`}
+            style:background-color={$flatOrSharp === '#'
+              ? colors.green[600]
+              : colors.green[400]}
+            style:padding={spacing[1.5]}
+            style:margin-right={0}
+            style:border-top-left-radius={borderRadius.md}
+            style:border-bottom-left-radius={borderRadius.md}
+            style:font-weight="bold"
+            on:click={() => {
+              flatOrSharp.set('#')
+            }}>#</button
+          >
+          <button
+            style:border={`2px solid ${colors.green[600]}`}
+            style:border-left="none"
+            style:background-color={$flatOrSharp === 'b'
+              ? colors.green[600]
+              : colors.green[400]}
+            style:margin-left={0}
+            style:padding={spacing[1.5]}
+            style:border-top-right-radius={borderRadius.md}
+            style:border-bottom-right-radius={borderRadius.md}
+            style:font-weight="bold"
+            on:click={() => {
+              flatOrSharp.set('b')
+            }}>b</button
+          >
+        </span>
+        <Metronome />
+      </div>
     </div>
     <div id="beneathNav">
       <!-- main -->
