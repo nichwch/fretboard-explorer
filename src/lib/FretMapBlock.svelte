@@ -215,6 +215,7 @@
           on:click={() => {
             overlayMode = 'chord'
             overlayRoot = root
+            updateSheets()
           }}>add overlay</button
         >
       </div>
@@ -273,6 +274,7 @@
             class="removeOverlayButton"
             on:click={() => {
               overlayMode = null
+              updateSheets()
             }}>remove overlay</button
           >
         {/if}
