@@ -214,6 +214,7 @@
           class="overlayButton"
           on:click={() => {
             overlayMode = 'chord'
+            overlayRoot = root
           }}>add overlay</button
         >
       </div>
