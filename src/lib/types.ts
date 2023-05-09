@@ -36,5 +36,5 @@ export const defaultFretMapBlockProps: Partial<FretMapBlockProps> = {
   root: 'A',
   mode: 'scale',
   chordType: 'major',
-  scaleType: 'pentatonic',
+  scaleType: 'minor pentatonic',
 }
