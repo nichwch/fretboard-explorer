@@ -172,7 +172,14 @@
         {/each}
       </select>
     {/if}
-    <button on:click={deleteFretBoard}>delete </button>
+    <button
+      class="deleteButton"
+      style:border-radius={borderRadius.md}
+      style:padding={spacing[3]}
+      style:color={colors.red[900]}
+      on:click={deleteFretBoard}
+      >delete
+    </button>
     <!-- TODO: change this to be "if overlay" -->
     {#if true}
       <div style:padding={spacing[5]}>
@@ -228,4 +235,13 @@
 </div>
 
 <style>
+  .deleteButton {
+    border: none;
+    background-color: #ff8a8a;
+    float: right;
+  }
+
+  .deleteButton:hover {
+    background-color: #ff5c5c;
+  }
 </style>
