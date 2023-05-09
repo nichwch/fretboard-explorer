@@ -12,10 +12,7 @@
   export let fretIndex: number
   export let root: string
   export let tuning: Tuning
-  export let color: string
-  export let darkColor: string
-  export let opacity: number = 1
-  export let radius: number = 10
+  export let isOverlay: boolean = false
 
   const stringSpacing: number = getContext('stringSpacing')
   const fretSpacing: number = getContext('fretSpacing')
@@ -35,6 +32,10 @@
       currentPitchClass = note.name
     }
   }
+
+  $: color = isOverlay ? colors.white : colors.green[100]
+  $: darkColor = isOverlay ? colors.gray[500] : colors.green[500]
+  $: radius = isOverlay ? 12 : 10
 </script>
 
 <!-- hover target -->
@@ -45,8 +46,8 @@
   cy={stringIndex * stringSpacing}
   r={radius}
   fill={isRoot ? darkColor : color}
-  {opacity}
   stroke="black"
+  stroke-width={isOverlay ? 2 : 1}
   stroke-dasharray={$fretMapHoveredNote === currentPitchClass && !isRoot
     ? '4,4'
     : '0'}

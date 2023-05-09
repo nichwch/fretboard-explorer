@@ -114,30 +114,22 @@
       {/each}
     {/each}
     {#each tuning as openString, stringIndex}
+      {#if overlayFretMap}
+        {#each overlayFretMap[stringIndex] as fretIndex}
+          {#key fretIndex}
+            <FrettedNoteCircle
+              {stringIndex}
+              {fretIndex}
+              root={overlayRoot}
+              {tuning}
+              isOverlay={true}
+            />
+          {/key}
+        {/each}
+      {/if}
       {#each fretMap[stringIndex] as fretIndex}
         {#key fretIndex}
-          <FrettedNoteCircle
-            {stringIndex}
-            {fretIndex}
-            {root}
-            {tuning}
-            color={colors.green[100]}
-            darkColor={colors.green[500]}
-          />
-        {/key}
-      {/each}
-      {#each overlayFretMap[stringIndex] as fretIndex}
-        {#key fretIndex}
-          <FrettedNoteCircle
-            {stringIndex}
-            {fretIndex}
-            root={overlayRoot}
-            {tuning}
-            color={'transparent'}
-            darkColor={'transparent'}
-            opacity={1}
-            radius={12}
-          />
+          <FrettedNoteCircle {stringIndex} {fretIndex} {root} {tuning} />
         {/key}
       {/each}
     {/each}
