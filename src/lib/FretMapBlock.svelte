@@ -103,6 +103,8 @@
     } else if (overlayMode === 'chord') {
       let overlayChordName = `${overlayRoot} ${overlayChordType}`
       overlayFretMap = FretMapForChord(tuning, frets, overlayChordName)
+    } else if (overlayMode === null) {
+      overlayFretMap = null
     }
   }
 
