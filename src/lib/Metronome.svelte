@@ -2,6 +2,7 @@
   import { afterUpdate } from 'svelte'
   import { borderRadius, colors, spacing } from '../utils/style-constants'
   import metronomeSoundWav from '../assets/metronome.wav'
+  import { onMount } from 'svelte'
 
   let bpm = 100
   let playing = false
@@ -11,19 +12,34 @@
 
   console.log('hi')
   afterUpdate(() => {
-    if (playing) {
+    if (!playing) {
       metronomeSound.pause()
-      clearInterval(metronomeInterval)
-      metronomeInterval = setInterval(() => {
-        metronomeSound.load()
-        metronomeSound.play()
-        console.log('tick')
-      }, 60000 / bpm)
-    } else {
-      metronomeSound.pause()
-      clearInterval(metronomeInterval)
     }
   })
+
+  let ac = new AudioContext()
+
+  let lastTime = ac?.currentTime
+
+  const playSoundFunction = () => {
+    console.log('PLAYING', playing, bpm, 60000 / bpm)
+    if (!playing) {
+      return
+    }
+    metronomeSound.load()
+    metronomeSound.play()
+    console.log('tick')
+
+    const diff = (ac.currentTime - lastTime) * 1000
+    lastTime = ac.currentTime
+    const intervalTime = 60000 / bpm
+    let nextIntervalTime = intervalTime - (diff - intervalTime)
+
+    console.log('DIFF', diff, nextIntervalTime)
+    setTimeout(playSoundFunction, nextIntervalTime)
+  }
+
+  // setTimeout(playSoundFunction, 60000 / bpm)
 </script>
 
 <div
@@ -35,6 +51,13 @@
   <input bind:value={bpm} type="number" />
   <button
     on:click={() => {
+      ac.resume()
+      if (!playing) {
+        metronomeSound.load()
+        metronomeSound.play()
+        lastTime = ac?.currentTime
+        setTimeout(playSoundFunction, 60000 / bpm)
+      }
       playing = !playing
     }}
     >{#if playing}

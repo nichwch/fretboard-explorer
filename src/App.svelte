@@ -71,7 +71,7 @@
             }}>b</button
           >
         </span>
-        <Metronome />
+        <!-- <Metronome /> -->
       </div>
     </div>
     <div id="beneathNav">
