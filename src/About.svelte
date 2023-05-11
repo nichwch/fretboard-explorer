@@ -19,7 +19,7 @@
       style:display="flex"
       style:align-items="center"
     >
-      <span style:font-weight="bold">guitar tools</span>
+      <span style:font-weight="bold">fretboard explorer</span>
       <span style:margin-left={spacing[3]}><a href="/">back</a></span>
     </div>
     <div id="beneathNav">
@@ -30,10 +30,10 @@
         style:max-width={sizes.xl}
       >
         <h1>About this app</h1>
-        <h2>About the creator</h2>
+        <h2>About me</h2>
         <p>
-          My name is Nicholas Chen. I play the guitar (sometimes the bass) and
-          wanted to make a tool to help me practice scales/arpeggios.
+          I play the guitar (sometimes the bass) and wanted to make a tool to
+          help me practice scales/arpeggios.
         </p>
         <p>
           You can find my personal website <a href="https://nicholaschen.io/"

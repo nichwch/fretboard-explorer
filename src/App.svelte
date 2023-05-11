@@ -34,7 +34,7 @@
       style:display="flex"
       style:align-items="center"
     >
-      <span style:font-weight="bold">guitar tools</span>
+      <span style:font-weight="bold">fretboard explorer</span>
       <span style:margin-left={spacing[3]}><a href="/#/about">about</a></span>
       <div
         style:margin-left="auto"
