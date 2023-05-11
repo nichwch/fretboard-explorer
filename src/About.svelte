@@ -1,4 +1,5 @@
 <script type="ts">
+  import { fade } from 'svelte/transition'
   import { db } from './lib/db'
   import {
     AUTUMN_LEAVES,
@@ -8,7 +9,7 @@
   import { colors, sizes, spacing } from './utils/style-constants'
 </script>
 
-<main style:height="100%">
+<main style:height="100%" transition:fade={{ duration: 200 }}>
   <div id="main">
     <div
       id="topNav"
