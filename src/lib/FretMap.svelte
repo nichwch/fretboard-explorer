@@ -25,7 +25,7 @@
   const fretSpacing: number = getContext('fretSpacing')
 </script>
 
-<svg width="800px" height="200px" style:padding-left={spacing[5]}>
+<svg width="800px" height="150px" style:padding-left={spacing[5]}>
   <g transform="translate(50, 25)">
     <!-- fretboard inlays -->
     {#each fretInlaysThatFit as fretInlayLocation, index (index)}

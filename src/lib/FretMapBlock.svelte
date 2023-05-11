@@ -146,96 +146,86 @@
   {id}
   transition:fade
   style:border-bottom="1px solid black"
-  style:margin-top={spacing[5]}
   style:width="100%"
 >
   <!-- controls -->
-  <div style:padding={spacing[5]}>
-    <select
-      style:border-radius={borderRadius.md}
-      bind:value={mode}
-      style:background-color={colors.red[100]}
-      on:change={updateSheets}
-    >
-      <option value="chord"> Chord </option>
-      <option value="scale"> Scale </option>
-    </select>
-    <select
-      style:border-radius={borderRadius.md}
-      bind:value={root}
-      style:background-color={colors.blue[100]}
-      on:change={updateSheets}
-    >
-      {#each allRoots as root}
-        <option value={root}>{root}</option>
-      {/each}
-    </select>
-    {#if mode === 'scale'}
+  <div>
+    <div style:display="flex" style:background-color={colors.gray[100]}>
       <select
-        style:border-radius={borderRadius.md}
-        bind:value={scaleType}
-        style:background-color={colors.yellow[100]}
+        class="mainControlSelect"
+        bind:value={mode}
+        style:background-color={colors.red[100]}
         on:change={updateSheets}
       >
-        {#each allScales as { name }}
-          <option value={name}>{name}</option>
+        <option value="chord"> Chord </option>
+        <option value="scale"> Scale </option>
+      </select>
+      <select
+        class="mainControlSelect"
+        bind:value={root}
+        style:background-color={colors.blue[100]}
+        on:change={updateSheets}
+      >
+        {#each allRoots as root}
+          <option value={root}>{root}</option>
         {/each}
       </select>
-    {:else if mode === 'chord'}
-      <select
-        style:border-radius={borderRadius.md}
-        bind:value={chordType}
-        style:background-color={colors.yellow[100]}
-        on:change={updateSheets}
-      >
-        {#each allChords as xChordType}
-          <!-- some chords do not have proper names and can only be identified 
+      {#if mode === 'scale'}
+        <select
+          class="mainControlSelect"
+          bind:value={scaleType}
+          style:background-color={colors.yellow[100]}
+          on:change={updateSheets}
+        >
+          {#each allScales as { name }}
+            <option value={name}>{name}</option>
+          {/each}
+        </select>
+      {:else if mode === 'chord'}
+        <select
+          class="mainControlSelect"
+          bind:value={chordType}
+          style:background-color={colors.yellow[100]}
+          on:change={updateSheets}
+        >
+          {#each allChords as xChordType}
+            <!-- some chords do not have proper names and can only be identified 
         by their aliases
         -->
-          <option value={xChordType.name || xChordType?.aliases?.[0]}
-            >{xChordType.name || xChordType?.aliases?.[0]}</option
+            <option value={xChordType.name || xChordType?.aliases?.[0]}
+              >{xChordType.name || xChordType?.aliases?.[0]}</option
+            >
+          {/each}
+        </select>
+      {/if}
+      <!-- overlay controls -->
+      {#if overlayMode == null}
+        <div>
+          <button
+            style:padding={spacing[1.5]}
+            style:border-right="1px solid black"
+            class="overlayButton"
+            on:click={() => {
+              overlayMode = 'chord'
+              overlayRoot = root
+              updateSheets()
+            }}>add overlay</button
           >
-        {/each}
-      </select>
-    {/if}
-    <button
-      class="deleteButton"
-      style:border-radius={borderRadius.md}
-      style:padding={spacing[1.5]}
-      style:color={colors.red[900]}
-      on:click={deleteFretBoard}
-      >delete
-    </button>
-    <!-- TODO: change this to be "if overlay" -->
-    {#if overlayMode == null}
-      <div>
-        <button
-          style:border-radius={borderRadius.md}
-          style:padding={spacing[1.5]}
-          style:margin-top={spacing[3]}
-          class="overlayButton"
-          on:click={() => {
-            overlayMode = 'chord'
-            overlayRoot = root
-            updateSheets()
-          }}>add overlay</button
-        >
-      </div>
-    {:else}
-      <div>
+        </div>
+      {:else}
         <select
-          style:border-radius={borderRadius.md}
+          class="mainControlSelect"
           bind:value={overlayMode}
-          style:background-color={colors.red[100]}
+          style:background-color={colors.gray[200]}
           on:change={updateSheets}
         >
           <option value="chord"> Chord </option>
           <option value="scale"> Scale </option>
         </select>
         <select
-          style:border-radius={borderRadius.md}
+          class="mainControlSelect"
           bind:value={overlayRoot}
-          style:background-color={colors.blue[100]}
+          style:background-color={colors.gray[200]}
           on:change={updateSheets}
         >
           {#each allRoots as root}
@@ -244,9 +234,9 @@
         </select>
         {#if overlayMode === 'scale'}
           <select
-            style:border-radius={borderRadius.md}
+            class="mainControlSelect"
             bind:value={overlayScaleType}
-            style:background-color={colors.yellow[100]}
+            style:background-color={colors.gray[200]}
             on:change={updateSheets}
           >
             {#each allScales as { name }}
@@ -255,9 +245,9 @@
           </select>
         {:else if overlayMode === 'chord'}
           <select
-            style:border-radius={borderRadius.md}
+            class="mainControlSelect"
             bind:value={overlayChordType}
-            style:background-color={colors.yellow[100]}
+            style:background-color={colors.gray[200]}
             on:change={updateSheets}
           >
             {#each allChords as xChordType}
@@ -269,28 +259,55 @@
               >
             {/each}
           </select>
-          <button
-            style:border-radius={borderRadius.md}
-            style:padding={spacing[0.5]}
-            style:margin-top={spacing[3]}
-            class="removeOverlayButton"
-            on:click={() => {
-              overlayMode = null
-              updateSheets()
-            }}>remove overlay</button
-          >
         {/if}
-      </div>
-    {/if}
+        <button
+          style:padding={spacing[1.5]}
+          style:border-right="1px solid black"
+          class="removeOverlayButton"
+          on:click={() => {
+            overlayMode = null
+            updateSheets()
+          }}>remove overlay</button
+        >
+      {/if}
+      <!-- delete button -->
+      <button
+        style:margin-left="auto"
+        class="deleteButton"
+        style:padding={spacing[1.5]}
+        style:color={colors.red[900]}
+        on:click={deleteFretBoard}
+        >delete
+      </button>
+    </div>
   </div>
-  <div style:overflow-x="auto">
+  <div
+    style:overflow-x="auto"
+    style:display="flex"
+    style:align-items="center"
+    style:border-top="1px solid black"
+  >
     <FretMap {fretMap} {root} {tuning} {overlayFretMap} {overlayRoot} />
+
+    <textarea
+      class="fretboardNotes"
+      style:padding={spacing[3]}
+      style:margin-left={spacing[3]}
+      style:border="none"
+      style:border-left="1px solid black"
+      style:resize="none"
+      style:font-family="inherit"
+      style:height="150px"
+      placeholder="write notes here..."
+      style:flex-grow="1"
+    />
   </div>
 </div>
 
 <style>
   .deleteButton {
     border: none;
+    border-left: 1px solid black;
     background-color: #ff8a8a;
     float: right;
   }
@@ -301,19 +318,29 @@
 
   .overlayButton {
     border: none;
-    background-color: #90cdf4;
+    background-color: #e2e8f0;
   }
 
   .overlayButton:hover {
-    background-color: #63b3ed;
+    background-color: #cbd5e0;
   }
 
   .removeOverlayButton {
     border: none;
-    background-color: #ff8a8a;
+    background-color: #e2e8f0;
   }
 
   .removeOverlayButton:hover {
-    background-color: #ff5c5c;
+    background-color: #cbd5e0;
+  }
+
+  .fretboardNotes:focus {
+    outline: none;
+    background-color: #edf2f7;
+  }
+
+  .mainControlSelect {
+    border: none;
+    border-right: 1px solid black;
   }
 </style>
