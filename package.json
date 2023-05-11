@@ -22,6 +22,7 @@
   "dependencies": {
     "dexie": "^4.0.1-alpha.10",
     "nanoid": "^4.0.2",
+    "svelte-spa-router": "^3.3.0",
     "tonal": "^4.14.0"
   }
 }

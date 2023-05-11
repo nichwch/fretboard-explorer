@@ -1,5 +1,6 @@
 export const AUTUMN_LEAVES = {
   name: 'autumn leaves',
+  id: 'sdlfjgsbkjdfnsajlfk42',
   sheetContents: [
     {
       stringSpacing: 20,
