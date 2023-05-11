@@ -299,6 +299,7 @@
       style:height="150px"
       placeholder="write notes here..."
       style:flex-grow="1"
+      spellcheck="false"
     />
   </div>
 </div>
