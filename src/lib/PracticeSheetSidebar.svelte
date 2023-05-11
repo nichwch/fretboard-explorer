@@ -64,7 +64,6 @@
         style:margin-top={spacing[3]}
         style:border-radius={borderRadius.lg}
         on:click={() => {
-          console.log('CLICKED', practiceSheet.id)
           $currentPracticeSheetId = practiceSheet.id
         }}
       >

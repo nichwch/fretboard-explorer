@@ -34,16 +34,15 @@
 
   export let index: number
   export let id: string
+  export let notes: string | null = null
 
   let currentPracticeSheetId: Writable<string | null> = getContext(
     'currentPracticeSheetId'
   )
-  $: {
-    console.log('currentPracticeSheetId2', $currentPracticeSheetId)
-  }
   let currentPracticeSheet: Observable<PracticeSheet> = getContext(
     'currentPracticeSheet'
   )
+  $: console.log('currentPracticeSheet', $currentPracticeSheet)
 
   let fretMap = FretMapForScale(tuning, frets, `${root} ${scaleType}`)
 
@@ -52,9 +51,7 @@
   let allScales = ScaleType.all()
   let allChords = ChordType.all()
   $: allRoots = Scale.get('A chromatic').notes.map((note) => {
-    console.log('NOTE', note, Note.get(note).acc, $flatOrSharp)
     if ($flatOrSharp !== Note.get(note).acc) {
-      console.log('corrected', Note.enharmonic(note))
       return Note.enharmonic(note)
     } else {
       return note
@@ -124,9 +121,9 @@
         overlayMode,
         overlayChordType,
         overlayScaleType,
+        notes,
       }
       newSheet[index] = newBlock
-      console.log('new sheet update', newSheet)
       db.practice_sheets.update($currentPracticeSheetId, {
         sheetContents: newSheet,
       })
@@ -290,6 +287,8 @@
     <FretMap {fretMap} {root} {tuning} {overlayFretMap} {overlayRoot} />
 
     <textarea
+      bind:value={notes}
+      on:change={updateSheets}
       class="fretboardNotes"
       style:padding={spacing[3]}
       style:margin-left={spacing[3]}

@@ -13,7 +13,6 @@
 
   $: currentPracticeSheet = liveQuery(async () => {
     const res = await db.practice_sheets.get($currentPracticeSheetId)
-    console.log('query id', $currentPracticeSheetId, res)
     return res
   })
 

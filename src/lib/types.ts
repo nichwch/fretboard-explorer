@@ -26,6 +26,13 @@ export type FretMapBlockProps = {
   chordType: string | null
   scaleType: string | null
   id: string
+
+  overlayRoot: NoteName | null
+  overlayMode: 'scale' | 'chord' | null
+  overlayChordType: string | null
+  overlayScaleType: string | null
+
+  notes: string | null
 }
 
 export const defaultFretMapBlockProps: Partial<FretMapBlockProps> = {

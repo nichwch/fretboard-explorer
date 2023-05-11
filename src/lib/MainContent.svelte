@@ -24,7 +24,6 @@
 
   $: currentPracticeSheet = liveQuery(async () => {
     const res = await db.practice_sheets.get($currentPracticeSheetId)
-    console.log('query id', $currentPracticeSheetId, res)
     return res
   })
 
@@ -79,8 +78,6 @@
       style:min-width={sizes.xs}
       value={sheetName}
       on:input={(event) => {
-        //@ts-ignore
-        console.log('change?', event.target.value)
         db.practice_sheets.update($currentPracticeSheetId, {
           ...$currentPracticeSheet,
           //@ts-ignore

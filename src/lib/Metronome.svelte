@@ -10,7 +10,6 @@
   let metronomeInterval = null
   const metronomeSound = new Audio(metronomeSoundWav)
 
-  console.log('hi')
   afterUpdate(() => {
     if (!playing) {
       metronomeSound.pause()
@@ -22,20 +21,17 @@
   let lastTime = ac?.currentTime
 
   const playSoundFunction = () => {
-    console.log('PLAYING', playing, bpm, 60000 / bpm)
     if (!playing) {
       return
     }
     metronomeSound.load()
     metronomeSound.play()
-    console.log('tick')
 
     const diff = (ac.currentTime - lastTime) * 1000
     lastTime = ac.currentTime
     const intervalTime = 60000 / bpm
     let nextIntervalTime = intervalTime - (diff - intervalTime)
 
-    console.log('DIFF', diff, nextIntervalTime)
     setTimeout(playSoundFunction, nextIntervalTime)
   }
 
