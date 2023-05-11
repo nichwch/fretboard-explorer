@@ -69,7 +69,7 @@
         <h2>Is this open source?</h2>
         <p>
           Yes! The repo is <a
-            href="https://github.com/nichwch/guitar-practice-tools">here</a
+            href="https://github.com/nichwch/fretboard-explorer">here</a
           >, go ahead and fork it.
         </p>
         <h2>This is cool, can I give you money?</h2>
