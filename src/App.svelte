@@ -9,6 +9,7 @@
   import Metronome from './lib/Metronome.svelte'
   import { flatOrSharp } from './lib/flatOrSharpStore'
 
+  db.open()
   let currentPracticeSheetId = writable<string | null>(null)
 
   $: currentPracticeSheet = liveQuery(async () => {
