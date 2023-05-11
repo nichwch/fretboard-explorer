@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getContext } from 'svelte'
-  import NoteCircle from './NoteCircle.svelte'
   import {
     FRET_INLAYS,
     GUITAR_STANDARD_FRETS,
